@@ -1,0 +1,46 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.welcomeCont {
+    background: azure;
+    width: 20vw;
+    height: 100px;
+    padding: 10px;
+
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.button {
+    width: 50%;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+
+    background-color: beige;
+}
+
+.button:hover {
+    background-color: aquamarine;
+    cursor: pointer;
+}
+
+
+

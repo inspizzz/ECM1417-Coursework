@@ -1,0 +1,103 @@
+*{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.navBar {
+    width: 100vw;
+    height: 50px;
+
+    background-color: blue;
+    top: 0;
+    padding: 5px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.navBarLeft {
+    display: flex;
+}
+
+.navBarRight {
+    margin-right: 10px;
+
+    display: flex;
+    gap: 10px;
+}
+
+.referenceHome {
+    height: 100%;
+    width: 100px;
+    background-color: azure;
+    border-radius: 10px;
+    
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+
+    align-self: flex-start;
+}
+
+.referencePlay {
+    height: 100%;
+    width: 100px;
+    background-color: azure;
+    border-radius: 10px;
+    
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.referenceRegister {
+    height: 100%;
+    width: 100px;
+    background-color: azure;
+    border-radius: 10px;
+    
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    
+}
+
+.referenceLeaderboard {
+    height: 100%;
+    width: 100px;
+    background-color: azure;
+    border-radius: 10px;
+    
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.text {
+    font-size: 12px;
+    font-weight: bold;
+    font: verdana;
+}
+
+.emoji {
+    height: 100%;
+    width: 40px;
+
+    background-color: azure;
+    border-radius: 10px;
+
+    object-fit: contain;
+
+    margin-right: 5px;
+}
