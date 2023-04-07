@@ -7,7 +7,6 @@
 
         // read in the data and set sessions
         $_SESSION['username'] = $_POST['username'];
-        $_SESSION['password'] = $_POST['password'];
 
         // debug
 //        echo 'Username: ' . $_SESSION['username'];

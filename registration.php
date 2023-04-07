@@ -24,8 +24,6 @@
                 <label for="uname">Username</label><br>
                 <input type="text" id="uname" value="" name="username"><br>
 
-                <label for="pwd">Password</label><br>
-                <input type="text" id="pwd" value="" name="password"><br><br>
 
                 <input type="submit" value="Submit" name="Submit">
             </form>
