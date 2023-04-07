@@ -37,63 +37,63 @@
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="red" src="assets/emoji/skin/red.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="yellow" src="assets/emoji/skin/yellow.png" />
                         </div>
                     </div>
 
                     <div class="mouthCont">
                         <div class="featureCont">
-
+                            <img class="open" src="assets/emoji/mouth/open.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="sad" src="assets/emoji/mouth/sad.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="smiling" src="assets/emoji/mouth/smiling.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="straight" src="assets/emoji/mouth/straight.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="surprise" src="assets/emoji/mouth/surprise.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="teeth" src="assets/emoji/mouth/teeth.png" />
                         </div>
                     </div>
 
                     <div class="eyesCont">
                         <div class="featureCont">
-
+                            <img class="closed" src="assets/emoji/eyes/closed.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="laughing" src="assets/emoji/eyes/laughing.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="long" src="assets/emoji/eyes/long.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="normal" src="assets/emoji/eyes/normal.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="rolling" src="assets/emoji/eyes/rolling.png" />
                         </div>
 
                         <div class="featureCont">
-
+                            <img class="winking" src="assets/emoji/eyes/winking.png" />
                         </div>
                     </div>
                 </div>
