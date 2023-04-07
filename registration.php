@@ -19,81 +19,91 @@
         </div>
         
         <div id="main">
-            <div class="registrationCont">
-                <form method="post" action="./" onsubmit="setSession(document.getElementById('uname').value, document.getElementById('pwd').value)">
-                    <label for="uname">Username</label><br>
-                    <input type="text" id="uname" value="" name="username"><br>
+            <form class="registrationCont" method="post" action="./" onsubmit="setSession(document.getElementById('uname').value, document.getElementById('pwd').value)">
+                <div class="usernameCont">
+                    <div class="labelCont">
+                        <label for="uname">Username</label><br>
+                    </div>
 
-                    <div class="emojiCont">
-                        <div class="skinCont">
-                            <div class="featureCont">
+                    <div class="inputCont">
+                        <input class="input" type="text" id="uname" value="" name="username"><br>
+                    </div>
+                </div>
 
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
+                <div class="emojiCont">
+                    <div class="skinCont">
+                        <div class="featureCont">
+                            <img class="green" src="assets/emoji/skin/green.png" />
                         </div>
 
-                        <div class="mouthCont">
-                            <div class="featureCont">
+                        <div class="featureCont">
 
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
                         </div>
 
-                        <div class="eyesCont">
-                            <div class="featureCont">
+                        <div class="featureCont">
 
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
-
-                            <div class="featureCont">
-
-                            </div>
                         </div>
                     </div>
-                    <input type="submit" value="Submit" name="Submit">
-                </form>
-            </div>
+
+                    <div class="mouthCont">
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+                    </div>
+
+                    <div class="eyesCont">
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+
+                        <div class="featureCont">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submitCont">
+                    <input class="submit" type="submit" value="Submit" name="Submit">
+                </div>
+
+            </form>
+
         </div>
     </body>
 </html>
