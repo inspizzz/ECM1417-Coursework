@@ -29,59 +29,21 @@
     gap: 10px;
 }
 
-.referenceHome {
+.navItem {
     height: 100%;
     width: 100px;
-    background-color: azure;
+    background-color: rgb(240, 255, 255);
+    border: none;
     border-radius: 10px;
-    
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
 
-    align-self: flex-start;
-}
-
-.referencePlay {
-    height: 100%;
-    width: 100px;
-    background-color: azure;
-    border-radius: 10px;
-    
     display: flex;
-    text-align: center;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
-.referenceRegister {
-    height: 100%;
-    width: 100px;
-    background-color: azure;
-    border-radius: 10px;
-    
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    
-}
-
-.referenceLeaderboard {
-    height: 100%;
-    width: 100px;
-    background-color: azure;
-    border-radius: 10px;
-    
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
+.navItem:hover {
+    background-color: #dedede;
 }
 
 .text {
@@ -90,7 +52,7 @@
     font: verdana;
 }
 
-.emoji {
+.emojiCont {
     height: 100%;
     width: 40px;
 

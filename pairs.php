@@ -1,7 +1,3 @@
-<?php
-include "session/startSession.php";
-?>
-
 <!DOCTYPE html>
 <html>
     <head>

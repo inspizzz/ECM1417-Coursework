@@ -4,8 +4,7 @@
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/index.css">
 
-        <script src="session/setUsername.js"></script>
-        <script src="session/getUsername.js"></script>
+        <script src="session/profile.js"></script>
     </head>
 
     <body>
@@ -23,21 +22,26 @@
     </body>
 
     <script>
-        // generate conditional content
-        let template = "";
-        const isset = getUsername()
 
-        if (isset) {
-            template += '<h> Welcome to Pairs</h>'
-            template += '<button class="button" id="pairsButton" onclick="window.location.href=`pairs.php`;"> Click here to play </button>'
-        } else {
-            template += '<h> Youre not using a registered session? </h>'
-            template += '<button class="button" id="registerButton" onclick="window.location.href=`registration.php`;"> Register now </button>'
+        // function may be called to update when changes have been made
+        function reloadIndex() {
+            // generate conditional content
+            let template = "";
+            const isset = getUsername()
+
+            if (isset) {
+                template += '<h> Welcome to Pairs</h>'
+                template += '<button class="button" id="pairsButton" onclick="window.location.href=`pairs.php`;"> Click here to play </button>'
+            } else {
+                template += '<h> Youre not using a registered session? </h>'
+                template += '<button class="button" id="registerButton" onclick="window.location.href=`registration.php`;"> Register now </button>'
+            }
+
+            const container = window.document.getElementById("inner")
+            container.innerHTML = template
         }
 
-        const container = window.document.getElementById("inner")
-        container.innerHTML = template
-
-
+        // show it
+        reloadIndex()
     </script>
 </html>

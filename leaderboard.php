@@ -1,14 +1,10 @@
-<?php
-include "session/startSession.php";
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/leaderboard.css">
-        <script src="session/setUsername.js"></script>
-        <script src="session/getUsername.js"></script>
+
+        <script src="session/profile.js"></script>
     </head>
 
     <body>

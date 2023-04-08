@@ -1,14 +1,10 @@
-<?php
-    session_start();
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/registration.css">
-        <script src="session/setUsername.js"></script>
-        <script src="session/getUsername.js"></script>
+
+        <script src="session/register.js"></script>
         <script src="Scripts/registerSubmit.js"></script>
     </head>
 
@@ -199,24 +195,38 @@
             </div>
 
             <script>
-                // import checks from "./Scripts/registerSubmit"
-
-
                 function submit() {
-                    const username = document.getElementById('uname').value
+                    const username = window.document.getElementById('uname').value
+                    const skin = window.document.getElementById(`skin_${skinNumber}`)
+                    const mouth = window.document.getElementById(`mouth_${mouthNumber}`)
+                    const eye = window.document.getElementById(`eyes_${eyeNumber}`)
+
+
+
                     const result = submitCheck(username)
 
-                    const isset1 = getUsername()
-                    console.log(isset1)
-
                     if (result) {
+
+                        // set the username
                         setUsername(username)
-                        console.log("session registered")
+
+                        let skinURL = skin.getElementsByTagName('img')[0].src
+                        let mouthURL = mouth.getElementsByTagName('img')[0].src
+                        let eyeURL = eye.getElementsByTagName('img')[0].src
+
+                        // set the profile image
+                        setProfile(skinURL, mouthURL, eyeURL)
+                        getProfile()
+
+                        // reload the navigatino bar dynamically
+                        reloadNav()
+
+                        // navigate the user automatically to the index page
+                        // window.location.href = "./index.php"
+                    } else {
+                        // error username not valid, do something
                     }
 
-                    // check if the session has been created
-                    const isset2 = getUsername()
-                    console.log(isset2)
                 }
             </script>
         </div>
