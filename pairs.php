@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="./css/global.css">
+        <link rel="stylesheet" href="./css/pairs.css">
     </head>
     
     <body>
@@ -12,7 +13,17 @@
         </div>
         
         <div id="main">
-            this is inside the game
+            <div class="titleCont">
+                <h> this is the title </h>
+            </div>
+
+            <div class="gameCont">
+
+            </div>
+
+            <script>
+
+            </script>
         </div>
     </body>
 </html>
