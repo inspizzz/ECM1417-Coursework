@@ -52,9 +52,13 @@
     font: verdana;
 }
 
-.emojiCont {
+.profileCont {
+    position: relative;
+
+    writing-mode: vertical-rl;
     height: 100%;
-    width: 40px;
+    width: 100%;
+    max-width: 50px;
 
     background-color: azure;
     border-radius: 10px;
@@ -62,4 +66,16 @@
     object-fit: contain;
 
     margin-right: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileCont > * {
+    object-fit: cover;
+    width: 40px;
+    height: 40px;
+
+    position: absolute;
 }

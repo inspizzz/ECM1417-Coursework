@@ -40,8 +40,9 @@
                     template += `<h class="text"> Leaderboard </h>`
                     template += `</button>`
 
-                    if (profile) {
-                        template += `<div class="emojiCont" id="user_link" name="user">`
+                    console.log("profile is: ", profile)
+                    if (profile !== false) {
+                        template += `<div class="profileCont" id="user_link" name="user">`
                         template += `<img class="emoji" src="${profile.skin}" />`
                         template += `<img class="emoji" src="${profile.mouth}" />`
                         template += `<img class="emoji" src="${profile.eyes}" />`

@@ -201,8 +201,6 @@
                     const mouth = window.document.getElementById(`mouth_${mouthNumber}`)
                     const eye = window.document.getElementById(`eyes_${eyeNumber}`)
 
-
-
                     const result = submitCheck(username)
 
                     if (result) {
@@ -216,13 +214,12 @@
 
                         // set the profile image
                         setProfile(skinURL, mouthURL, eyeURL)
-                        getProfile()
 
                         // reload the navigatino bar dynamically
                         reloadNav()
 
                         // navigate the user automatically to the index page
-                        // window.location.href = "./index.php"
+                        window.location.href = "./index.php"
                     } else {
                         // error username not valid, do something
                     }
