@@ -23,15 +23,21 @@
                     </div>
 
                     <div class="inputCont">
-                        <input class="input" type="text" id="uname" value="" name="username"><br>
+                        <input class="input" type="text" id="uname" value="" name="username" onChange="removeError()"><br>
                     </div>
+
+                    <script>
+                        const element = window.document.getElementById("uname");
+                        let addError = function() { element.classList.add('error'); };
+                        let removeError = function() { element.classList.remove('error'); };
+                    </script>
                 </div>
 
                 <div class="emojiCont">
                     <div class="buttonCont">
                         <button class="buttonLeft" type="button" onClick="changeSkin(-1)"> < </button>
-                        <button class="buttonLeft" type="button" onClick="changeMouth(-1)"> < </button>
                         <button class="buttonLeft" type="button" onClick="changeEyes(-1)"> < </button>
+                        <button class="buttonLeft" type="button" onClick="changeMouth(-1)"> < </button>
                     </div>
 
                     <div class="faceCont">
@@ -104,8 +110,8 @@
 
                     <div class="buttonCont">
                         <button class="buttonRight" type="button" onClick="changeSkin(1)"> > </button>
-                        <button class="buttonRight" type="button" onClick="changeMouth(1)"> > </button>
                         <button class="buttonRight" type="button" onClick="changeEyes(1)"> > </button>
+                        <button class="buttonRight" type="button" onClick="changeMouth(1)"> > </button>
                     </div>
                 </div>
 
@@ -202,7 +208,7 @@
                     const eye = window.document.getElementById(`eyes_${eyeNumber}`)
 
                     const result = submitCheck(username)
-
+                    console.log("result: ", result)
                     if (result) {
 
                         // set the username
@@ -222,6 +228,7 @@
                         window.location.href = "./index.php"
                     } else {
                         // error username not valid, do something
+                        addError()
                     }
 
                 }
