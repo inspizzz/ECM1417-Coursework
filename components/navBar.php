@@ -5,6 +5,8 @@
 <header>
     <link rel="stylesheet" href="./components/navBar.css">
 
+    <script src="session/getSession.js"></script>
+
     <div class="navBar">
         <div class="navBarLeft">
             <div class="referenceHome" id="index_link" name="home" >
@@ -20,7 +22,7 @@
             </div>
         </div>
 
-        <div class="navBarRight">
+        <div class="navBarRight" id="right">
             <?php
             if(!isset($_SESSION['username'])) {
                 echo '<div class="referenceRegister" id="register_link" name="register">';
@@ -67,5 +69,46 @@
             }
             ?>
         </div>
+
+        <script>
+            let template = ''
+            const isset = getUsername()
+
+            if (isset) {
+                template += '<div class="referencePlay" id="pairs_link" name="memory">'
+                template += '<h class="text"> Play Pairs </h>'
+                template += '<script>'
+                template += 'var something = document.getElementById("pairs_link")'
+                template += 'something.style.cursor = "pointer"'
+                template += 'something.onclick = function() {'
+                template += 'window.location.href = "pairs.php"'
+                template += '};'
+                template += ' </script> '
+                template += '</div>'
+
+                template += '<div class="referenceLeaderboard" id="leaderboard_link" name="leaderboard">';
+                template += '<h class="text"> Leaderboard </h>'
+                template += '<script>'
+                template += 'var something = document.getElementById("leaderboard_link");'
+                template += 'something.style.cursor = "pointer";'
+                template += 'something.onclick = function() {'
+                template += 'window.location.href = "leaderboard.php";'
+                template += '};'
+                template += '</script>'
+            } else {
+                template += '<div class="referenceRegister" id="register_link" name="register">'
+                template += '<h class="text"> Register </h>'
+                template += '<Script>'
+                template += 'var something = document.getElementById("register_link");'
+                template += 'something.style.cursor = "pointer";'
+                template += 'something.onclick = function() {'
+                template += 'window.location.href = "registration.php";'
+                template += '};'
+                template += '</Script>'
+                template += '</div>'
+            }
+
+
+        </script>
     </div>
 </header>

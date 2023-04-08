@@ -1,6 +1,6 @@
-function setSession(username, password) {
+function setUsername(username) {
     // set session
     window.sessionStorage.setItem("username", username)
-    window.sessionStorage.setItem("password", password)
     console.log("set the username and password")
+    console.log()
 }

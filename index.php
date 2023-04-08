@@ -1,24 +1,11 @@
-<?php
-    // link into the session
-    session_start();
-
-    // check if form has been submitted
-    if (isset($_POST['Submit'])) {
-
-        // read in the data and set sessions
-        $_SESSION['username'] = $_POST['username'];
-
-        // debug
-//        echo 'Username: ' . $_SESSION['username'];
-//        echo 'Password: ' . $_SESSION['password'];
-    }
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/index.css">
+
+        <script src="session/setUsername.js"></script>
+        <script src="session/getUsername.js"></script>
     </head>
 
     <body>
@@ -29,25 +16,28 @@
         </div>
 
         <div id="main">
-            <div class="welcomeCont">
-                <?php
-                if (isset($_SESSION['username'])) {
-                    echo '<h> Welcome to Pairs</h>';
-                    echo '<button class="button" id="pairsButton" onclick="window.location.href=`', 'pairs.php', '`;"> Click here to play </button>';
-                } else {
-                    echo '<h> Youre not using a registered session? </h>';
-                    echo '<button class="button" id="registerButton" onclick="window.location.href=`', 'registration.php', '`;"> Register now </button>';
-                }
-                ?>
-
-
-
-
+            <div class="welcomeCont" id="inner">
 
             </div>
-
         </div>
-        <script src="session/setSession.js"></script>
-        <script src="session/getSession.js"></script>
     </body>
+
+    <script>
+        // generate conditional content
+        let template = "";
+        const isset = getUsername()
+
+        if (isset) {
+            template += '<h> Welcome to Pairs</h>'
+            template += '<button class="button" id="pairsButton" onclick="window.location.href=`pairs.php`;"> Click here to play </button>'
+        } else {
+            template += '<h> Youre not using a registered session? </h>'
+            template += '<button class="button" id="registerButton" onclick="window.location.href=`registration.php`;"> Register now </button>'
+        }
+
+        const container = window.document.getElementById("inner")
+        container.innerHTML = template
+
+
+    </script>
 </html>

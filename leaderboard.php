@@ -7,8 +7,8 @@ include "session/startSession.php";
     <head>
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/leaderboard.css">
-        <script src="session/setSession.js"></script>
-        <script src="session/getSession.js"></script>
+        <script src="session/setUsername.js"></script>
+        <script src="session/getUsername.js"></script>
     </head>
 
     <body>

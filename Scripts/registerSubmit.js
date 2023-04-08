@@ -1,5 +1,6 @@
-function submit(username, password) {
-    let reg = new RegExp("[\”\!\@\#\%\&\*\(\)\+\=\ˆ\{\}\[\]\—\;\:\“\’\<\>\?\/]+")
-    return !(username.match(/[”!@#%&*()+=ˆ{}\[\]—;:“’<>?\/]+/)) && !(password.match(/[”!@#%&*()+=ˆ{}\[\]—;:“’<>?\/]+/))
+function submitCheck(username) {
+    console.log("submit check")
+    let reg = new RegExp("[ \”\!\@\#\%\&\*\(\)\+\=\ˆ\{\}\[\]\—\;\:\“\’\<\>\?\/]+")
+    return !(username.match(/[”!@#%&*()+=ˆ{}\[\]—;:“’<>?\/]+/))
 
 }
