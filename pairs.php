@@ -3,6 +3,8 @@
     <head>
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/pairs.css">
+        <script src="Scripts/game.js"> </script>
+
     </head>
     
     <body>
@@ -13,20 +15,14 @@
         </div>
         
         <div id="main">
-            <div class="gameCont">
-                <?php
-                include "components/loadGame/loadGame.php";
-                ?>
+            <div class="gameCont" id="game">
 
-<!--                --><?php
-//                include "components/startGame/startGame.php";
-//                ?>
 
 
             </div>
 
             <script>
-
+                beforeGame()
             </script>
         </div>
     </body>
