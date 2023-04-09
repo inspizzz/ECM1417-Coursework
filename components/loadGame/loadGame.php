@@ -16,8 +16,8 @@
         </div>
 
         <div class="loadButtonCont">
-            <button class="load" onClick="loadData(); closeAutoLoad(); openStartGame();"> Load Game </button>
-            <button class="cancel" onClick="closeAutoLoad(); openStartGame();"> Reload Game </button>
+            <button class="load" onClick="game.loadData(); game.closeAutoLoad(); game.openStartGame()"> Load Game </button>
+            <button class="cancel" onClick="game.closeAutoLoad(); game.openStartGame()"> Start Again </button>
         </div>
     </div>
 </header>

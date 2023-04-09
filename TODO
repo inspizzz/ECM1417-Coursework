@@ -1,6 +1,14 @@
-PAIRS GAME
+PAIRS GAME COMPLEX
 - when loading a game, display some data about that game
 - load initial start game
+- increasing number of cards from 2 -> 3 -> 4 to match
+- record total number of points
+- record number of points per level
+- points calculated by time and attempted matched
+- background colour of gray div changes if the user exceeds the previous be
+
+- when the timer ends / game finishes ask the user to submit or restart
+
 
 LEADERBOARD
 - do it

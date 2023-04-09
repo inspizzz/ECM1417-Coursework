@@ -20,7 +20,13 @@
             </div>
 
             <script>
-                // beforeGame()
+                // get element and create a game instance
+                const PairsContainer = window.document.getElementById("game")
+                const game = new Game(PairsContainer)
+
+                game.beforeGame()
+
+
             </script>
         </div>
     </body>
