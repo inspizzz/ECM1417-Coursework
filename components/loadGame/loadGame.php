@@ -11,6 +11,10 @@
             <h class="loadTitle"> loaded game detected </h>
         </div>
 
+        <div class="loadData">
+            <!-- some data about the game -->
+        </div>
+
         <div class="loadButtonCont">
             <button class="load" onClick="loadData(); closeAutoLoad(); openStartGame();"> Load Game </button>
             <button class="cancel" onClick="closeAutoLoad(); openStartGame();"> Reload Game </button>

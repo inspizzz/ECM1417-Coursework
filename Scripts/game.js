@@ -1,9 +1,8 @@
-// variables
-let cardsToMatch = 2
-let cardsHorizontally = 2
-let cardsVertically = 2
-let points = 0
-let timeLeft = 0
+
+
+// -------------------------------------------------------------------
+// ------------------------- PRE GAME CHECKS -------------------------
+// -------------------------------------------------------------------
 
 /**
  * code that is ran when the website is loaded check if there
@@ -77,6 +76,11 @@ function closeAutoLoad() {
     startElement.style.display = "none"
 }
 
+/**
+ * add the start game component to the screen, uses ajax
+ * to request the file and then grabs the content inserting
+ * it into the right space
+ */
 function openStartGame() {
 
     // get game div element
@@ -91,6 +95,11 @@ function openStartGame() {
     client.send();
 }
 
+/**
+ * close the start game so that the screen is revealed and
+ * allowing the user to play the game, after this, the game
+ * goes into full swing and begin automatically
+ */
 function closeStartGame() {
     const startElement = window.document.getElementById("startGame")
     startElement.style.display = "none"
@@ -100,6 +109,22 @@ function closeStartGame() {
 // --------------------------- START GAME ---------------------------
 // ------------------------------------------------------------------
 
+// variables
+let cardsToMatch = 2
+let cardsHorizontally = 2
+let cardsVertically = 2
+let points = 0
+let timeLeft = 0
+
 function startGame() {
     console.log("game starting")
+
+    // generate the display of blocks
+}
+
+/**
+ * create html code that represents the board
+ */
+function generateBoard() {
+
 }
