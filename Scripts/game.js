@@ -90,5 +90,5 @@ function closeStartGame() {
 // ------------------------------------------------------------------
 
 function startGame() {
-
+    console.log("game starting")
 }

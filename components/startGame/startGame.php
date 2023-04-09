@@ -7,6 +7,6 @@
     </div>
 
     <div class="startGameCont">
-        <button class="startGame" onClick="startGame()"> Start Game </button>
+        <button class="startGame" onClick="closeStartGame(); startGame();"> Start Game </button>
     </div>
 </header>
