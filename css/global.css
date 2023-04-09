@@ -9,3 +9,19 @@
     z-index: -999;
     object-fit: cover;
 }
+
+.backdrop {
+    /*z-index: 10;*/
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: gray;
+    opacity: 0.5;
+}

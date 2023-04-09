@@ -15,8 +15,12 @@
         <div id="main">
             <div class="gameCont">
                 <?php
-                include "components/startGame/startGame.php";
+                include "components/loadGame/loadGame.php";
                 ?>
+
+<!--                --><?php
+//                include "components/startGame/startGame.php";
+//                ?>
 
 
             </div>

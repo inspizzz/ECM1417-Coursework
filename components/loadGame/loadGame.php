@@ -1,12 +1,20 @@
-<header id="startGame">
-    <link rel="stylesheet" href="./components/startGame/startGame.css" />
+<header id="loadGame">
+    <link rel="stylesheet" href="./components/loadGame/loadGame.css" />
     <script src="./Scripts/game.js"></script>
 
-    <div class="backdrop" id="backdrop">
+    <div class="backdrop">
 
     </div>
 
-    <div class="startGameCont", id="button">
-        <button class="startGame" onClick="startGame()"> Start Game </button>
+    <div class="loadCont">
+        <div class="loadTitleCont">
+            <h class="loadTitle"> loaded game detected </h>
+        </div>
+
+        <div class="loadButtonCont">
+            <button class="load" onClick="autoLoad()"> Load Game </button>
+            <button class="cancel" onClick="closeAutoLoad()"> Reload Game </button>
+        </div>
+
     </div>
 </header>
