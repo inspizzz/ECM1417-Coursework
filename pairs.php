@@ -18,7 +18,9 @@
             </div>
 
             <div class="gameCont">
-
+                <div class="startGameCont">
+                    <button class="startGame" onClick="startGame()"> Start Game </button>
+                </div>
             </div>
 
             <script>
