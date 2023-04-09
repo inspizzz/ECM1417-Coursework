@@ -14,7 +14,7 @@ function beforeGame() {
 
 
     // check if instance of game is stored in cookies
-    if (true) {
+    if (checkData()) {
 
         // show load game to the user
         openLoadGame()
@@ -45,6 +45,15 @@ function loadData() {
     // load game data into cookies into script
 }
 
+/**
+ * check if there is data stored as cookies with data
+ * about a game, return true if yes and else return false
+ *
+ * @return boolean
+ */
+function checkData() {
+    return true;
+}
 
 /**
  * open the load game modal that asks the user weather

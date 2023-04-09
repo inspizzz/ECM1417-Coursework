@@ -1,16 +1,16 @@
-<header  id="card">
+<header id="card">
     <link rel="stylesheet" href="./components/card/card.css" />
     <script src="./Scripts/game.js"></script>
 
-    <div class="cardCont" id="">
-        <div class="cardFrontCont">
+    <div class="cardCont" id="tmpContainer">
+        <div class="card card--front">
             <img class="cardImage" id="tmpSkin" alt="" src=""/>
             <img class="cardImage" id="tmpEyes" alt="" src=""/>
             <img class="cardImage" id="tmpMouth" alt=""  src=""/>
         </div>
 
-        <div class="cardBack">
-
+        <div class="card card--back">
+            back
         </div>
     </div>
 
@@ -22,11 +22,13 @@
             const elementSkin = window.document.getElementById("tmpSkin")
             const elementEyes = window.document.getElementById("tmpEyes")
             const elementMouth = window.document.getElementById("tmpMouth")
+            const container = window.document.getElementById("tmpContainer")
 
             // set unique ids to not mistake elements when generating more cards
             elementSkin.id = id + "_Skin"
             elementEyes.id = id + "_Eyes"
             elementMouth.id = id + "_Mouth"
+            container.id = id
 
             // arrays of possible images
             let skins = ["green.png", "red.png", "yellow.png"]
@@ -42,8 +44,12 @@
             elementSkin.src = "./assets/emoji/skin/" + random_skin
             elementEyes.src = "./assets/emoji/eyes/" + random_eyes
             elementMouth.src = "./assets/emoji/mouth/" + random_mouth
-        }
 
+            // add flipping effect
+            container.addEventListener( 'click', function() {
+                container.classList.toggle('is-flipped');
+            });
+        }
         generateRandom(1)
 
     </script>

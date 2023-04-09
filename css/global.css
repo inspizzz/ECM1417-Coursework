@@ -1,17 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    min-height: 100% !important;
+    height: 100%;
+    z-index: -99999;
+
+    display: flex;
+    flex-direction: column;
+}
+
 #main {
     background-image: url("../assets/arcade-image.jpg");
-    background-size: cover;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
     height: 100vh;
     width: 100vw;
+    max-width: 100%;
+    max-height: 100%;
+
     top: 0;
     left: 0;
-    background-repeat: no-repeat;
-    z-index: -999;
-    object-fit: cover;
 }
 
 .backdrop {
-    /*z-index: 10;*/
     position: absolute;
     top: 60px;
     left: 0;
