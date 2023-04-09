@@ -13,14 +13,12 @@
         </div>
         
         <div id="main">
-            <div class="titleCont">
-                <h> this is the title </h>
-            </div>
-
             <div class="gameCont">
-                <div class="startGameCont">
-                    <button class="startGame" onClick="startGame()"> Start Game </button>
-                </div>
+                <?php
+                include "components/startGame/startGame.php";
+                ?>
+
+
             </div>
 
             <script>
