@@ -16,13 +16,19 @@
         
         <div id="main">
             <div class="gameCont" id="game">
+                <?php
+                    include "./components/card/card.php"
+                ?>
 
+                <?php
+                    include "./components/card/card.php"
+                ?>
 
 
             </div>
 
             <script>
-                beforeGame()
+                // beforeGame()
             </script>
         </div>
     </body>

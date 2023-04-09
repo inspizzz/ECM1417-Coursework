@@ -1,0 +1,29 @@
+.cardCont {
+    background-color: white;
+    padding: 20px 10px 20px 10px;
+
+    border-radius: 10px;
+
+
+}
+
+.cardImageCont {
+    position: relative;
+    object-fit: contain;
+    width: 100px;
+    height: 100px;
+
+    writing-mode: sideways-rl;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardImageCont > * {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+
+    position: absolute;
+}
