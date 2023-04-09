@@ -6,25 +6,23 @@ let points = 0
 let timeLeft = 0
 
 /**
- * code that is ran when the website is loaded
- * check if there is an instance of the game stored
- * ask the user to load it
- * load if yes ignore if no
- * then ask the user to start the game
+ * code that is ran when the website is loaded check if there
+ * is an instance of the game stored ask the user to load it
+ * load if yes ignore if no then ask the user to start the game
  */
 function beforeGame() {
     // game div
-    const game = window.document.getElementById("game")
+
 
     // check if instance of game is stored in cookies
-    if (false) {
+    if (true) {
 
         // show load game to the user
-        openLoadGame(game)
+        openLoadGame()
     } else {
 
         // show start game to the user
-        openStartGame(game)
+        openStartGame()
     }
 }
 
@@ -49,7 +47,16 @@ function loadData() {
 }
 
 
-function openLoadGame(game) {
+/**
+ * open the load game modal that asks the user weather
+ * or not they want to load previous data from an ongoing
+ * game
+ */
+function openLoadGame() {
+
+    // get game div element
+    const game = window.document.getElementById("game")
+
     // ask user to load the game
     let client = new XMLHttpRequest();
     client.open("GET", "./components/loadGame/loadGame.php");
@@ -70,7 +77,11 @@ function closeAutoLoad() {
     startElement.style.display = "none"
 }
 
-function openStartGame(game) {
+function openStartGame() {
+
+    // get game div element
+    const game = window.document.getElementById("game")
+
     // ask the user to start the game
     let client = new XMLHttpRequest();
     client.open("GET", "./components/startGame/startGame.php");
