@@ -22,6 +22,8 @@ class Game {
      * load if yes ignore if no then ask the user to start the game
      */
     beforeGame() {
+        this.saveData()
+
         // check if instance of game is stored in cookies
         if (this.checkData()) {
 
@@ -32,16 +34,6 @@ class Game {
             // show start game to the user
             this.openStartGame()
         }
-    }
-
-    /**
-     * check if there is data stored as cookies with data
-     * about a game, return true if yes and else return false
-     *
-     * @return boolean
-     */
-    checkData() {
-        return true;
     }
 
     /**
@@ -105,6 +97,8 @@ class Game {
     closeStartGame() {
         const startElement = window.document.getElementById("startGame")
         startElement.style.display = "none"
+
+        this.removeData()
     }
 
 
@@ -120,6 +114,16 @@ class Game {
     saveData() {
 
         // save game data into cookies
+        document.cookie = `game={level: ${this.level}, cardsToMatch:  ${this.cardsToMatch}, numberOfCards: ${this.numberOfCards}, pointsLevel: ${this.pointsLevel}, pointsTotal: ${this.pointsTotal}, flipNumber: ${this.flipNumber}, timeLeft: ${this.timeLeft}}`
+    }
+
+    /**
+     * remove the game cookie so that loading the previous game
+     * does not work anymore
+     */
+    removeData() {
+        console.log("removing data")
+        document.cookie = "game=null"
     }
 
     /**
@@ -130,6 +134,24 @@ class Game {
     loadData() {
 
         // load game data into cookies into script
+
+    }
+
+    /**
+     * get the cookie data under the name game, this loads and returns each individual
+     */
+    gatData() {
+
+    }
+
+    /**
+     * check if there is data stored as cookies with data
+     * about a game, return true if yes and else return false
+     *
+     * @return boolean
+     */
+    checkData() {
+
     }
 
 
