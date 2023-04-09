@@ -1,11 +1,17 @@
-<header class="cardCont" id="card">
+<header  id="card">
     <link rel="stylesheet" href="./components/card/card.css" />
     <script src="./Scripts/game.js"></script>
 
-    <div class="cardImageCont" id="">
-        <img class="cardImage" id="tmpSkin" alt="" src=""/>
-        <img class="cardImage" id="tmpEyes" alt="" src=""/>
-        <img class="cardImage" id="tmpMouth" alt=""  src=""/>
+    <div class="cardCont" id="">
+        <div class="cardFrontCont">
+            <img class="cardImage" id="tmpSkin" alt="" src=""/>
+            <img class="cardImage" id="tmpEyes" alt="" src=""/>
+            <img class="cardImage" id="tmpMouth" alt=""  src=""/>
+        </div>
+
+        <div class="cardBack">
+
+        </div>
     </div>
 
     <script>
