@@ -64,11 +64,6 @@ class Game {
             window.document.getElementById("loadGamePointsTotal").textContent = `points total: ${pointsTotal}`
             window.document.getElementById("loadGameTimeLeft").textContent = `time left: ${timeLeft}`
         }
-
-
-
-
-
     }
 
     /**
@@ -146,9 +141,15 @@ class Game {
      * game can be reloaded
      */
     loadData() {
+        const data = this.getData()
 
-        // load game data into cookies into script
-
+        this.level = data.get("level")
+        this.cardsToMatch = data.get("cardsToMatch")
+        this.numberOfCards = data.get("numberOfCards")
+        this.pointsLevel = data.get("pointsLevel")
+        this.pointsTotal = data.get("pointsTotal")
+        this.flipNumber = data.get("flipNumber")
+        this.timeLeft = data.get("timeLeft")
     }
 
     /**
