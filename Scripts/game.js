@@ -26,8 +26,6 @@ class Game {
         this.pointsTotal = 0
         this.flipNumber = 0
         this.timeLeft = 60
-
-        this.cards = []
     }
 
 
@@ -41,11 +39,10 @@ class Game {
      * load if yes ignore if no then ask the user to start the game
      */
     beforeGame() {
-        this.saveData()
         const data = this.getData()
-
+        console.log(data)
         // check if instance of game is stored in cookies
-        if (data !== "null") {
+        if (data !== null) {
 
             // show load game to the user
             this.openLoadGame(data.get("level"), data.get("pointsLevel"), data.get("pointsTotal"), data.get("timeLeft"))
@@ -140,7 +137,7 @@ class Game {
     saveData() {
 
         // save game data into cookies
-        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft},cards:${this.cards}`
+        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft}`
     }
 
     /**
@@ -168,8 +165,6 @@ class Game {
         this.flipNumber = data.get("flipNumber")
         this.timeLeft = data.get("timeLeft")
 
-        this.cards = data.get("cards")
-
         console.log("loaded data")
     }
 
@@ -178,21 +173,26 @@ class Game {
      */
     getData() {
         const value = `; ${document.cookie}`;
+        console.log(value)
         const parts = value.split(`; game=`);
+        console.log("parts: ", parts)
         if (parts.length === 2) {
             const data = parts.pop().split(';').shift();
             let map = new Map()
-            let map2 = {
 
-            }
             const thing = data.split(",")
+            console.log(thing[0])
+            if (thing[0] === "null") {
+                return null
+            } else {
+                console.log("on")
+                thing.map((value) => {
+                    const split = value.split(":")
+                    map.set(split[0], split[1])
+                })
 
-            thing.map((value) => {
-                const split = value.split(":")
-                map.set(split[0], split[1])
-            })
-
-            return map
+                return map
+            }
         } else {
             return null
         }
