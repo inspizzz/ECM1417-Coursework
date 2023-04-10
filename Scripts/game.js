@@ -8,7 +8,7 @@ class Game {
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
-        this.timeLeft = 0
+        this.timeLeft = 60
     }
 
 
@@ -106,8 +106,6 @@ class Game {
     closeStartGame() {
         const startElement = window.document.getElementById("startGame")
         startElement.style.display = "none"
-
-        this.removeData()
     }
 
 
@@ -150,6 +148,8 @@ class Game {
         this.pointsTotal = data.get("pointsTotal")
         this.flipNumber = data.get("flipNumber")
         this.timeLeft = data.get("timeLeft")
+
+        console.log("loaded data")
     }
 
     /**
@@ -193,6 +193,30 @@ class Game {
         console.log("game starting")
 
         // generate the display of blocks
+    }
+
+    generateBoard() {
+
+        let cards = []
+        // create array of elements
+        for (let i = 0 ; i < this.numberOfCards / 2 ; i++) {
+            console.log("creating two cards")
+
+            // add card to array
+        }
+    }
+
+    nextLevel() {
+
+        // increment level
+        this.level += 1
+
+        // new amount of cards
+        this.cardsToMatch = (this.level < 5) ? (2) : ((this.level < 10) ? (3) : (4))
+        this.numberOfCards = (2*this.level + 4 < 20) ? (2*this.level + 4) : (20)
+        this.pointsLevel = 0
+        this.flipNumber = 0
+        this.timeLeft = 60
     }
 }
 

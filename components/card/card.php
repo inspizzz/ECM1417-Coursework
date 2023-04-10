@@ -1,4 +1,4 @@
-<header id="card">
+<header id="tmpCard">
     <link rel="stylesheet" href="./components/card/card.css" />
     <script src="./Scripts/game.js"></script>
 
