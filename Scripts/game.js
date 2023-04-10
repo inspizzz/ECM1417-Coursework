@@ -1,3 +1,20 @@
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex !== 0) {
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+}
 
 class Game {
     constructor(main) {
@@ -9,6 +26,8 @@ class Game {
         this.pointsTotal = 0
         this.flipNumber = 0
         this.timeLeft = 60
+
+        this.cards = []
     }
 
 
@@ -121,7 +140,7 @@ class Game {
     saveData() {
 
         // save game data into cookies
-        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft}`
+        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft},cards:${this.cards}`
     }
 
     /**
@@ -148,6 +167,8 @@ class Game {
         this.pointsTotal = data.get("pointsTotal")
         this.flipNumber = data.get("flipNumber")
         this.timeLeft = data.get("timeLeft")
+
+        this.cards = data.get("cards")
 
         console.log("loaded data")
     }
@@ -189,21 +210,84 @@ class Game {
      * additionally utilising the timer, points per level, total
      * points and much more
      */
-    startGame() {
+    async startGame() {
         console.log("game starting")
 
-        // generate the display of blocks
+        // generate array of blocks
+        let board = this.generateBoard()
+
+        console.log(board)
+        // place them into the
+        for (let i = 0; i < board.length; i++) {
+            const item = board[i]
+
+            this.addCard(item.id, item.skin, item.mouth, item.eyes).then(() => {
+                const thing = window.document.getElementsByClassName("cardCont")
+                console.log(thing)
+            })
+
+            // this.addCard(item.id, item.skin, item.mouth, item.eyes).then((value) => {
+            //     console.log("found: ", value)
+            // }, (value) => {
+            //     console.log("rejected: ", value)
+            // })
+
+            // const element = window.document.getElementById(item.id)
+            //
+            // element.addEventListener( `click`, function() {
+            //     element.classList.toggle('is-flipped');
+            // });
+
+        }
+
+
+        for (let k = 0 ; k < thing.length ; k++) {
+            console.log("herer")
+            console.log(thing[k]);
+        }
     }
 
     generateBoard() {
 
+        // cards
         let cards = []
-        // create array of elements
-        for (let i = 0 ; i < this.numberOfCards / 2 ; i++) {
-            console.log("creating two cards")
+        let combos = []
 
-            // add card to array
+        // create array of elements
+        for (let i = 0 ; i < this.numberOfCards ; i+=2) {
+
+            // generate random skin
+            let skin = Math.floor(Math.random() * 3)
+            let mouth = Math.floor(Math.random() * 6)
+            let eyes = Math.floor(Math.random() * 6)
+
+            // while an element in the array has skin mouth and eyes the same
+            while (combos.includes(`${skin}${mouth}${eyes}`)) {
+
+                // regenerate new face
+                skin = Math.floor(Math.random() * 3)
+                mouth = Math.floor(Math.random() * 6)
+                eyes = Math.floor(Math.random() * 6)
+            }
+
+            // add cards to match to the array
+            for (let j = 0 ; j < this.cardsToMatch ; j++) {
+                cards.push({
+                    id: i+j,
+                    skin: skin,
+                    mouth: mouth,
+                    eyes: eyes
+                })
+            }
+
+
+            // store the current combinations so no duplicates come to be
+            combos.push(`${skin}${mouth}${eyes}`)
         }
+
+        cards = shuffle(cards)
+
+        return cards
     }
 
     nextLevel() {
@@ -213,10 +297,63 @@ class Game {
 
         // new amount of cards
         this.cardsToMatch = (this.level < 5) ? (2) : ((this.level < 10) ? (3) : (4))
-        this.numberOfCards = (2*this.level + 4 < 20) ? (2*this.level + 4) : (20)
+        this.numberOfCards = ((this.level + 2) * this.cardsToMatch < 24) ? ((this.level + 2) * this.cardsToMatch) : (24)
         this.pointsLevel = 0
         this.flipNumber = 0
         this.timeLeft = 60
+    }
+
+    async addCard(id, randomSkin, randomMouth, randomEyes) {
+        console.log(`adding card with id ${id}`)
+        // screen variable
+        const main = this.screen
+        let element;
+
+        // arrays of possible images
+        let skins = ["green.png", "red.png", "yellow.png"]
+        let mouth = ["open.png", "sad.png", "smiling.png", "straight.png", "surprise.png", "teeth.png"]
+        let eyes = ["closed.png", "laughing.png", "long.png", "normal.png", "rolling.png", "winking.png"]
+
+        const addEvent = (element) => {
+            element.addEventListener( `click`, function onClick() {
+                element.classList.toggle('is-flipped');
+            });
+        }
+
+        // ask user to load the game
+        let client = new XMLHttpRequest();
+        client.open("GET", "./components/card/card.php", true);
+        client.onload = async function () {
+            let result = client.responseText
+
+            // change the tmp things
+            result = result.replace("tmpContainer", id)
+            result = result.replace("tmpSkin", `${id}_Skin`)
+            result = result.replace("tmpMouth", `${id}_Mouth`)
+            result = result.replace("tmpEyes", `${id}_Eyes`)
+            result = result.replace("skinImage", `./assets/emoji/skin/${skins[randomSkin]}`)
+            result = result.replace("mouthImage", `./assets/emoji/mouth/${mouth[randomMouth]}`)
+            result = result.replace("eyesImage", `./assets/emoji/eyes/${eyes[randomEyes]}`)
+
+            main.innerHTML += result
+        }
+
+        client.onloadend = async function () {
+            addEvent(window.document.getElementById(id))
+        }
+
+
+        // send
+        await client.send()
+
+
+        // client.onloadend = function () {
+        //     // add flipping effect
+        //     window.document.getElementById(id).addEventListener( `click`, function() {
+        //         window.document.getElementById(id).classList.toggle('is-flipped');
+        //     });
+        // }
+
     }
 }
 

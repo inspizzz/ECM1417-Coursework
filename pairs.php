@@ -16,20 +16,12 @@
         
         <div id="main">
             <div class="gameCont" id="game">
-                <div id="backgrounds">
-
-                </div>
-                <?php
-                    include "components/card/card.php"
-                ?>
-                <?php
-                include "components/card/card.php"
-                ?>
             </div>
+
 
             <script>
                 // get element and create a game instance
-                const PairsContainer = window.document.getElementById("backgrounds")
+                const PairsContainer = window.document.getElementById("game")
                 const game = new Game(PairsContainer)
 
                 game.beforeGame()
