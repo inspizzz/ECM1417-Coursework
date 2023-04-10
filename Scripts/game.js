@@ -239,12 +239,6 @@ class Game {
             // });
 
         }
-
-
-        for (let k = 0 ; k < thing.length ; k++) {
-            console.log("herer")
-            console.log(thing[k]);
-        }
     }
 
     generateBoard() {
@@ -314,12 +308,6 @@ class Game {
         let mouth = ["open.png", "sad.png", "smiling.png", "straight.png", "surprise.png", "teeth.png"]
         let eyes = ["closed.png", "laughing.png", "long.png", "normal.png", "rolling.png", "winking.png"]
 
-        const addEvent = (element) => {
-            element.addEventListener( `click`, function onClick() {
-                element.classList.toggle('is-flipped');
-            });
-        }
-
         // ask user to load the game
         let client = new XMLHttpRequest();
         client.open("GET", "./components/card/card.php", true);
@@ -336,24 +324,18 @@ class Game {
             result = result.replace("eyesImage", `./assets/emoji/eyes/${eyes[randomEyes]}`)
 
             main.innerHTML += result
-        }
 
-        client.onloadend = async function () {
-            addEvent(window.document.getElementById(id))
-        }
+            const thing = window.document.getElementsByClassName("cardCont")
 
+            for (let i = 0 ; i < thing.length ; i++) {
+                thing[i].addEventListener("click", function() {
+                    thing[i].classList.toggle("is-flipped")
+                })
+            }
+        }
 
         // send
         await client.send()
-
-
-        // client.onloadend = function () {
-        //     // add flipping effect
-        //     window.document.getElementById(id).addEventListener( `click`, function() {
-        //         window.document.getElementById(id).classList.toggle('is-flipped');
-        //     });
-        // }
-
     }
 }
 
