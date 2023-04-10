@@ -23,12 +23,13 @@ class Game {
      */
     beforeGame() {
         this.saveData()
+        const data = this.getData()
 
         // check if instance of game is stored in cookies
-        if (this.checkData()) {
+        if (data !== "null") {
 
             // show load game to the user
-            this.openLoadGame()
+            this.openLoadGame(data.get("level"), data.get("pointsLevel"), data.get("pointsTotal"), data.get("timeLeft"))
         } else {
 
             // show start game to the user
@@ -41,20 +42,33 @@ class Game {
      * or not they want to load previous data from an ongoing
      * game
      */
-    openLoadGame() {
+    async openLoadGame(level, pointsLevel, pointsTotal, timeLeft) {
 
         // screen variable
         const main = this.screen
 
         // ask user to load the game
         let client = new XMLHttpRequest();
-        client.open("GET", "./components/loadGame/loadGame.php");
-        client.onreadystatechange = function() {
+        client.open("GET", "./components/loadGame/loadGame.php", true);
+        client.onreadystatechange = function () {
             main.innerHTML = client.responseText
         }
 
+
         // send
-        client.send();
+        await client.send()
+
+        client.onload = function () {
+            window.document.getElementById("loadGameLevel").textContent = `level: ${level}`
+            window.document.getElementById("loadGamePointsLevel").textContent = `points in level: ${pointsLevel}`
+            window.document.getElementById("loadGamePointsTotal").textContent = `points total: ${pointsTotal}`
+            window.document.getElementById("loadGameTimeLeft").textContent = `time left: ${timeLeft}`
+        }
+
+
+
+
+
     }
 
     /**
@@ -114,7 +128,7 @@ class Game {
     saveData() {
 
         // save game data into cookies
-        document.cookie = `game={level: ${this.level}, cardsToMatch:  ${this.cardsToMatch}, numberOfCards: ${this.numberOfCards}, pointsLevel: ${this.pointsLevel}, pointsTotal: ${this.pointsTotal}, flipNumber: ${this.flipNumber}, timeLeft: ${this.timeLeft}}`
+        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft}`
     }
 
     /**
@@ -140,18 +154,26 @@ class Game {
     /**
      * get the cookie data under the name game, this loads and returns each individual
      */
-    gatData() {
+    getData() {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; game=`);
+        if (parts.length === 2) {
+            const data = parts.pop().split(';').shift();
+            let map = new Map()
+            let map2 = {
 
-    }
+            }
+            const thing = data.split(",")
 
-    /**
-     * check if there is data stored as cookies with data
-     * about a game, return true if yes and else return false
-     *
-     * @return boolean
-     */
-    checkData() {
+            thing.map((value) => {
+                const split = value.split(":")
+                map.set(split[0], split[1])
+            })
 
+            return map
+        } else {
+            return null
+        }
     }
 
 

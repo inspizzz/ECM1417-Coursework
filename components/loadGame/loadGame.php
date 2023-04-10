@@ -12,7 +12,12 @@
         </div>
 
         <div class="loadData">
-            <!-- some data about the game -->
+            <ul id="showData">
+                <li id="loadGameLevel"> level: </li>
+                <li id="loadGamePointsLevel"> points in level: </li>
+                <li id="loadGamePointsTotal"> points total: </li>
+                <li id="loadGameTimeLeft"> time left: </li>
+            </ul>
         </div>
 
         <div class="loadButtonCont">
