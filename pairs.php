@@ -25,8 +25,6 @@
                 const game = new Game(PairsContainer)
 
                 game.beforeGame()
-
-
             </script>
         </div>
     </body>

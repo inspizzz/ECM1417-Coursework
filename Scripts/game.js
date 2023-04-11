@@ -16,18 +16,29 @@ function shuffle(array) {
     return array;
 }
 
+let instance;
+
 class Game {
+
+
     constructor(main) {
+        if (instance) {
+            throw new Error("cannot create more than one instance of the class")
+        }
         this.screen = main;
         this.level = 1
         this.cardsToMatch = 2
-        this.numberOfCards = 6
+        this.numberOfCards = 12
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
         this.timeLeft = 60
-    }
 
+        this.flipped = []
+        this.found = []
+
+        instance = this
+    }
 
     // -------------------------------------------------------------------
     // ------------------------- PRE GAME CHECKS -------------------------
@@ -225,19 +236,6 @@ class Game {
                 const thing = window.document.getElementsByClassName("cardCont")
                 console.log(thing)
             })
-
-            // this.addCard(item.id, item.skin, item.mouth, item.eyes).then((value) => {
-            //     console.log("found: ", value)
-            // }, (value) => {
-            //     console.log("rejected: ", value)
-            // })
-
-            // const element = window.document.getElementById(item.id)
-            //
-            // element.addEventListener( `click`, function() {
-            //     element.classList.toggle('is-flipped');
-            // });
-
         }
     }
 
@@ -281,6 +279,7 @@ class Game {
             combos.push(`${skin}${mouth}${eyes}`)
         }
 
+        // shuffle them for randomness
         cards = shuffle(cards)
 
         return cards
@@ -303,7 +302,6 @@ class Game {
         console.log(`adding card with id ${id}`)
         // screen variable
         const main = this.screen
-        let element;
 
         // arrays of possible images
         let skins = ["green.png", "red.png", "yellow.png"]
@@ -330,8 +328,8 @@ class Game {
             const thing = window.document.getElementsByClassName("cardCont")
 
             for (let i = 0 ; i < thing.length ; i++) {
-                thing[i].addEventListener("click", function() {
-                    thing[i].classList.toggle("is-flipped")
+                thing[i].addEventListener("click", function(event) {
+                    instance.flip(event, this)
                 })
             }
         }
@@ -339,24 +337,55 @@ class Game {
         // send
         await client.send()
     }
+
+    flip(event, element) {
+
+        // add element if the length is less than 2
+        if (instance.flipped.length < 2) {
+
+            // add element to array
+
+            // cant push if
+            // element has already been flipped, cannot unflip an element
+            if (!instance.flipped.includes(element)) {
+                instance.flipped.push(element)
+                element.classList.toggle("is-flipped")
+            } else {
+                console.log("cannot unflip it")
+            }
+
+        } else {
+
+            // show a little wiggle animation error
+        }
+
+        console.log(instance.flipped)
+
+        // check if there are now 2 elements
+        if (instance.flipped.length >= 2) {
+
+            // check if the two are the same
+            const face1 = instance.flipped[0].children[0].children
+            const face2 = instance.flipped[1].children[0].children
+
+            console.log("skin1: ", face1[0].src)
+            console.log("skin2: ", face2[0].src)
+
+            setTimeout(function() {
+                if (face1[0].src === face2[0].src && face1[1].src === face2[1].src && face1[2].src === face2[2].src) {
+                    console.log("MATCH OLEEEE OLEE OLE OLEEHHH")
+                    instance.flipped = []
+                } else {
+                    console.log("no match")
+                    instance.flipped[0].classList.toggle("is-flipped")
+                    instance.flipped[1].classList.toggle("is-flipped")
+                    instance.flipped = []
+                }
+            }, 2000);
+
+        }
+
+
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
