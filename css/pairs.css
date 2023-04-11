@@ -7,17 +7,27 @@
 }
 
 .gameCont {
-    width: 40vh;
-    height: 30vh;
+    width: 800px;
 
 
     background-color: gray;
     box-shadow: 5px 5px 5px 5px gray;
     border-radius: 20px;
+    padding: 10px;
 
+    /* flex */
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    /* grid */
+    /*display: grid;*/
+    /*grid-gap: 5px;*/
+    /*grid-template-columns: repeat(6, minmax(100px, 1fr));*/
+    /*justify-content: center;*/
+
 }
 
 .titleCont {

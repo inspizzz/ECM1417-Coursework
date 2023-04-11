@@ -256,8 +256,10 @@ class Game {
             let eyes = Math.floor(Math.random() * 6)
 
             // while an element in the array has skin mouth and eyes the same
+            console.log(combos)
             while (combos.includes(`${skin}${mouth}${eyes}`)) {
 
+                console.log(`card ${skin}${mouth}${eyes} already in combos`)
                 // regenerate new face
                 skin = Math.floor(Math.random() * 3)
                 mouth = Math.floor(Math.random() * 6)

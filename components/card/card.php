@@ -12,15 +12,8 @@
         </div>
 
         <div class="card card--back">
-            back
+
         </div>
     </div>
 
-    <script>
-        function addListener() {
-
-        }
-
-        addListener()
-    </script>
 </header>

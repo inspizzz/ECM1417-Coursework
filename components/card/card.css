@@ -42,7 +42,7 @@
     backface-visibility: hidden;
 }
 
-.card--front {
+.card--back {
     /*background-color: red;*/
 }
 
@@ -54,7 +54,7 @@
     position: absolute;
 }
 
-.card--back {
-    background-color: blue;
+.card--front {
+    /*background-color: blue;*/
     transform: rotateY(180deg);
 }
