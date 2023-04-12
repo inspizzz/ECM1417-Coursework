@@ -1,3 +1,9 @@
+/**
+ * shuffle and array of random elements
+ *
+ * @param array the array to be shuffled
+ * @return {*} the shuffled array
+ */
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
 
@@ -16,6 +22,17 @@ function shuffle(array) {
     return array;
 }
 
+function getIdFromElement(element) {
+    console.log("[DEBUG] element: ", element)
+
+    return {
+        id: element.id,
+        skin: element.children[0].children[0].id.split("_")[2],
+        mouth: element.children[0].children[1].id.split("_")[2],
+        eyes: element.children[0].children[2].id.split("_")[2]
+    }
+}
+
 let instance;
 
 class Game {
@@ -28,7 +45,7 @@ class Game {
         this.screen = main;
         this.level = 1
         this.cardsToMatch = 2
-        this.numberOfCards = 12
+        this.numberOfCards = 6
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
@@ -36,6 +53,9 @@ class Game {
 
         this.flipped = []
         this.found = []
+        this.checking = false
+
+        this.loaded = false
 
         instance = this
     }
@@ -51,7 +71,7 @@ class Game {
      */
     beforeGame() {
         const data = this.getData()
-        console.log(data)
+        console.log(`[DEBUG] cookie data\n${data}`)
         // check if instance of game is stored in cookies
         if (data !== null) {
 
@@ -71,6 +91,7 @@ class Game {
      */
     async openLoadGame(level, pointsLevel, pointsTotal, timeLeft) {
 
+        console.log(`[DEBUG] level:${level} pointsLevel:${pointsLevel} pointsTotal:${pointsTotal} timeLeft:${timeLeft}`)
         // screen variable
         const main = this.screen
 
@@ -146,9 +167,25 @@ class Game {
      * loaded back into play
      */
     saveData() {
+        console.log(`[DEBUG] saving data`)
+
+        // serialise the board and found
+        let tmpBoard = ""
+        let tmpFound = ""
+
+        this.board.forEach((element) => {
+            tmpBoard += `${element.id}${element.skin}${element.mouth}${element.eyes}|`
+        })
+
+        this.found.forEach((element) => {
+            tmpFound += `${element}|`
+
+        })
+        tmpFound = tmpFound.slice(0, -1);
+        tmpBoard = tmpBoard.slice(0, -1);
 
         // save game data into cookies
-        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft}`
+        document.cookie = `game=level:${this.level},cardsToMatch:${this.cardsToMatch},numberOfCards:${this.numberOfCards},pointsLevel:${this.pointsLevel},pointsTotal:${this.pointsTotal},flipNumber:${this.flipNumber},timeLeft:${this.timeLeft},board:${tmpBoard},found:${tmpFound}`
     }
 
     /**
@@ -156,7 +193,7 @@ class Game {
      * does not work anymore
      */
     removeData() {
-        console.log("removing data")
+        console.log("[GAME] removing data")
         document.cookie = "game=null"
     }
 
@@ -166,17 +203,51 @@ class Game {
      * game can be reloaded
      */
     loadData() {
+
+        console.log("[DEBUG] loading data")
+
         const data = this.getData()
 
-        this.level = data.get("level")
-        this.cardsToMatch = data.get("cardsToMatch")
-        this.numberOfCards = data.get("numberOfCards")
-        this.pointsLevel = data.get("pointsLevel")
-        this.pointsTotal = data.get("pointsTotal")
-        this.flipNumber = data.get("flipNumber")
-        this.timeLeft = data.get("timeLeft")
+        console.log(`[DEBUG] load data
+        level: ${data.get("level")}
+        cards to match: ${data.get("cardsToMatch")}
+        number of cards: ${data.get("numberOfCards")}
+        points at level: ${data.get("pointsLevel")}
+        points total: ${data.get("pointsTotal")}
+        flip number: ${data.get("flipNumber")}
+        time left: ${data.get("timeLeft")}
+        board: ${data.get("board")}
+        found: ${data.get("found")}
+        
+        `)
 
-        console.log("loaded data")
+        this.level = parseInt(data.get("level"))
+        this.cardsToMatch = parseInt(data.get("cardsToMatch"))
+        this.numberOfCards = parseInt(data.get("numberOfCards"))
+        this.pointsLevel = parseInt(data.get("pointsLevel"))
+        this.pointsTotal = parseInt(data.get("pointsTotal"))
+        this.flipNumber = parseInt(data.get("flipNumber"))
+        this.timeLeft = parseInt(data.get("timeLeft"))
+
+        // need to unpack the board and found
+        this.found = data.get("found").split("|")
+
+        this.board = []
+        data.get("board").split("|").forEach((thing) => {
+            this.board.push({
+                id: thing.split("")[0],
+                skin: thing.split("")[1],
+                mouth: thing.split("")[2],
+                eyes: thing.split("")[3],
+            })
+        })
+
+        window.document.getElementById("time").innerHTML = this.timeLeft
+        window.document.getElementById("level").innerHTML = this.level
+        window.document.getElementById("levelScore").innerHTML = this.pointsLevel
+        window.document.getElementById("totalScore").innerHTML = this.pointsTotal
+
+        this.loaded = true
     }
 
     /**
@@ -184,19 +255,16 @@ class Game {
      */
     getData() {
         const value = `; ${document.cookie}`;
-        console.log(value)
+        console.log(`[DEBUG] grabbed cookie of value: ${value}`)
         const parts = value.split(`; game=`);
-        console.log("parts: ", parts)
         if (parts.length === 2) {
             const data = parts.pop().split(';').shift();
             let map = new Map()
 
             const thing = data.split(",")
-            console.log(thing[0])
             if (thing[0] === "null") {
                 return null
             } else {
-                console.log("on")
                 thing.map((value) => {
                     const split = value.split(":")
                     map.set(split[0], split[1])
@@ -221,24 +289,98 @@ class Game {
      * additionally utilising the timer, points per level, total
      * points and much more
      */
-    async startGame() {
-        console.log("game starting")
+    startGame() {
+        console.log(`[GAME] game starting`)
+
+        if (this.loaded) {
+            this.startGameFrom()
+            return
+        }
+
+        // reset the content of the div
+        this.screen.innerHTML = ""
 
         // generate array of blocks
-        let board = this.generateBoard()
+        this.board = this.generateBoard()
 
-        console.log(board)
+        console.log(`[DEBUG] generated board\n${this.board}`)
         // place them into the
-        for (let i = 0; i < board.length; i++) {
-            const item = board[i]
-
-            this.addCard(item.id, item.skin, item.mouth, item.eyes).then(() => {
-                const thing = window.document.getElementsByClassName("cardCont")
-                console.log(thing)
-            })
+        for (let i = 0; i < this.board.length; i++) {
+            const item = this.board[i]
+            this.addCard(item.id, item.skin, item.mouth, item.eyes)
         }
+
+        // begin decrementing the timer and updating it to the board
+        this.timer = setInterval(function() {
+            instance.timeLeft -= 1
+
+            if (instance.timeLeft <= 0) {
+                // timer has finished
+                console.log(`[GAME] timer has finished, end game`)
+                clearInterval(instance.timer)
+                instance.endGame()
+            }
+
+            // update the tag
+            window.document.getElementById("time").innerHTML = instance.timeLeft
+
+            // update the cookie
+            instance.saveData()
+        }, 1000)
     }
 
+    /**
+     * when loading data from cookies, user wants to start the game from
+     * a pre loaded game position, this includes time and whatnot
+     */
+    startGameFrom() {
+        this.loaded = false
+        console.log("[DEBUG] starting game from a point")
+
+        console.log(`[DEBUG] data
+        level: ${this.level}
+        cards to match: ${this.cardsToMatch}
+        number of cards: ${this.numberOfCards}
+        points at level: ${this.pointsLevel}
+        points total: ${this.pointsTotal}
+        flip number: ${this.flipNumber}
+        time left: ${this.timeLeft}
+        board: `, this.board + `
+        found: `, this.found)
+
+
+        // populate the board with cards
+        for (let i = 0; i < this.board.length; i++) {
+            const item = this.board[i]
+            this.addCard(item.id, item.skin, item.mouth, item.eyes)
+        }
+
+        //begin timer
+        this.timer = setInterval(function() {
+            instance.timeLeft -= 1
+
+            if (instance.timeLeft <= 0) {
+                // timer has finished
+                console.log(`[GAME] timer has finished, end game`)
+                clearInterval(instance.timer)
+                instance.endGame()
+            }
+
+            // update the tag
+            window.document.getElementById("time").innerHTML = instance.timeLeft
+
+            // update the cookie
+            instance.saveData()
+        }, 1000)
+    }
+
+    /**
+     * generate a board of elements, note that there should be repeating
+     * elements depending on what the number of number of matches
+     * this coudl be 2, 3 or 4
+     *
+     * @return {[]} an array of cards
+     */
     generateBoard() {
 
         // cards
@@ -246,7 +388,7 @@ class Game {
         let combos = []
 
         // create array of elements
-        for (let i = 0 ; i < this.numberOfCards ; i+=2) {
+        for (let i = 0 ; i < this.numberOfCards ; i+=this.cardsToMatch) {
 
             // generate random skin
             let skin = Math.floor(Math.random() * 3)
@@ -254,10 +396,9 @@ class Game {
             let eyes = Math.floor(Math.random() * 6)
 
             // while an element in the array has skin mouth and eyes the same
-            console.log(combos)
             while (combos.includes(`${skin}${mouth}${eyes}`)) {
 
-                console.log(`card ${skin}${mouth}${eyes} already in combos`)
+                console.log(`[DEBUG] card ${skin}${mouth}${eyes} already in combos`)
                 // regenerate new face
                 skin = Math.floor(Math.random() * 3)
                 mouth = Math.floor(Math.random() * 6)
@@ -287,19 +428,75 @@ class Game {
 
     nextLevel() {
 
+        // reset the timer
+        clearInterval(this.timer)
+
         // increment level
         this.level += 1
 
-        // new amount of cards
-        this.cardsToMatch = (this.level < 5) ? (2) : ((this.level < 10) ? (3) : (4))
-        this.numberOfCards = ((this.level + 2) * this.cardsToMatch < 24) ? ((this.level + 2) * this.cardsToMatch) : (24)
+        // new amount of cards to match
+        if (this.level < 5) {
+
+            // just 2
+            this.cardsToMatch = 2
+
+        } else if (this.level < 10) {
+
+            // just 2 and 3
+            this.cardsToMatch = (this.level % 2 === 0) ? (2) : (3)
+        } else {
+
+            // just 2 and 3 and 4
+            this.cardsToMatch = (this.level % 3 === 0) ? (2) : ((this.level % 3 === 1) ? (3) : (4))
+        }
+
+        // interesting number of cards generation
+        if (this.cardsToMatch === 2) {
+
+            // is 2
+            this.numberOfCards = Math.ceil((6 + this.level * 3 / 2) / 2.0) * 2
+
+        } else if (this.cardsToMatch === 3) {
+
+            // is 3
+            this.numberOfCards = Math.ceil((6 + this.level * 2 / 3) / 3.0) * 3
+        } else {
+
+            // is 4
+            this.numberOfCards = Math.ceil((6 + this.level * 2 / 4) / 4.0) * 4
+        }
+
+        if (this.numberOfCards > 24) {
+            this.numberOfCards = 24
+        }
+        console.log(`[DEBUG] number of cards: ${this.numberOfCards}\nnumber to match: ${this.cardsToMatch}`)
+
+
+
+        // this.cardsToMatch = (this.level < 5) ? (2) : ((this.level < 10) ? (3) : (4))
+        // this.numberOfCards = (this.level * (this.cardsToMatch) < 24) ? (this.level * this.cardsToMatch) : (24)
+
         this.pointsLevel = 0
         this.flipNumber = 0
         this.timeLeft = 60
+
+        this.flipped = []
+        this.found = []
+        this.checking = false
+
+        // set the visual
+        window.document.getElementById("time").innerHTML = this.timeLeft
+        window.document.getElementById("level").innerHTML = this.level
+
+        // save this checkpoint
+        this.saveData()
+
+        // restart the game
+        this.startGame()
     }
 
     async addCard(id, randomSkin, randomMouth, randomEyes) {
-        console.log(`adding card with id ${id}`)
+        console.log(`[DEBUG] adding card with id ${id}`)
         // screen variable
         const main = this.screen
 
@@ -316,9 +513,9 @@ class Game {
 
             // change the tmp things
             result = result.replace("tmpContainer", id)
-            result = result.replace("tmpSkin", `${id}_Skin`)
-            result = result.replace("tmpMouth", `${id}_Mouth`)
-            result = result.replace("tmpEyes", `${id}_Eyes`)
+            result = result.replace("tmpSkin", `${id}_Skin_${randomSkin}`)
+            result = result.replace("tmpMouth", `${id}_Mouth_${randomMouth}`)
+            result = result.replace("tmpEyes", `${id}_Eyes_${randomEyes}`)
             result = result.replace("skinImage", `./assets/emoji/skin/${skins[randomSkin]}`)
             result = result.replace("mouthImage", `./assets/emoji/mouth/${mouth[randomMouth]}`)
             result = result.replace("eyesImage", `./assets/emoji/eyes/${eyes[randomEyes]}`)
@@ -331,6 +528,19 @@ class Game {
                 thing[i].addEventListener("click", function(event) {
                     instance.flip(event, this)
                 })
+
+                const elementId = getIdFromElement(thing[i])
+                const elementString = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
+
+                if (instance.found.includes(elementString)) {
+                    console.log("flipping ", thing[i])
+                    setTimeout(function() {
+                        if (!thing[i].classList.contains("is-flipped")) {
+                            thing[i].classList.toggle("is-flipped")
+                        }
+                    }, 50)
+
+                }
             }
         }
 
@@ -341,51 +551,87 @@ class Game {
     flip(event, element) {
 
         // add element if the length is less than 2
-        if (instance.flipped.length < 2) {
+        if (instance.flipped.length < this.cardsToMatch) {
 
-            // add element to array
+            const elementId = getIdFromElement(element)
+            const stringId = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
 
-            // cant push if
-            // element has already been flipped, cannot unflip an element
-            if (!instance.flipped.includes(element)) {
+            // check if the element is already flipped
+            if (!instance.flipped.includes(element) && !instance.found.includes(stringId)) {
                 instance.flipped.push(element)
                 element.classList.toggle("is-flipped")
             } else {
-                console.log("cannot unflip it")
+                event.preventDefault()
+                console.log(`[DEBUG] cannot unflip card`)
             }
 
         } else {
 
             // show a little wiggle animation error
+            event.preventDefault()
         }
 
-        console.log(instance.flipped)
+        // check if items are already being checked
+        if (!this.checking) {
+            // check if there are now 2 elements
+            if (instance.flipped.length >= this.cardsToMatch) {
 
-        // check if there are now 2 elements
-        if (instance.flipped.length >= 2) {
+                // checking
+                this.checking = true
 
-            // check if the two are the same
-            const face1 = instance.flipped[0].children[0].children
-            const face2 = instance.flipped[1].children[0].children
+                setTimeout(function() {
+                    console.log(`[DEBUG] checking card`)
 
-            console.log("skin1: ", face1[0].src)
-            console.log("skin2: ", face2[0].src)
+                    const face = instance.flipped.every(value => value.children[0].children[0].src === instance.flipped[0].children[0].children[0].src)
+                    const eyes = instance.flipped.every(value => value.children[0].children[1].src === instance.flipped[0].children[0].children[1].src)
+                    const mouth = instance.flipped.every(value => value.children[0].children[2].src === instance.flipped[0].children[0].children[2].src)
 
-            setTimeout(function() {
-                if (face1[0].src === face2[0].src && face1[1].src === face2[1].src && face1[2].src === face2[2].src) {
-                    console.log("MATCH OLEEEE OLEE OLE OLEEHHH")
+                    console.log(`[DEBUG] face:${face} eyes:${eyes} mouth:${mouth}`)
+
+                    if (face && mouth && eyes) {
+                        console.log(`[DEBUG] MATCH OLEEEE OLEE OLE OLEEHHH`)
+
+                        instance.flipped.forEach((element) => {
+                            const elementId = getIdFromElement(element)
+                            const stringId = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
+                            instance.found.push(stringId)
+                        })
+
+                        // check if the game is finished
+                        if (instance.found.length === instance.numberOfCards) {
+                            console.log(`[DEBUG] THATS GAME`)
+
+                            // handle the end of the round, next level
+                            instance.nextLevel()
+                        }
+
+                    } else {
+                        console.log(`[DEBUG] no match`)
+
+                        // unflip all
+                        instance.flipped.forEach((element) => {
+                            element.classList.toggle("is-flipped")
+                        })
+                    }
+
+                    // reset variables
                     instance.flipped = []
-                } else {
-                    console.log("no match")
-                    instance.flipped[0].classList.toggle("is-flipped")
-                    instance.flipped[1].classList.toggle("is-flipped")
-                    instance.flipped = []
-                }
-            }, 2000);
-
+                    instance.checking = false
+                }, 500);
+            }
+        } else {
+            console.log(`[DEBUG] already checking items`)
         }
+    }
 
-
+    /**
+     * handle the end game code, what happens when the game ends,
+     * show some display, reset the code, show a set to leaderboard
+     * display
+     */
+    endGame() {
+        // remove saved game from
+        this.removeData()
     }
 }
 
