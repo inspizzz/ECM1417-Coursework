@@ -28,6 +28,11 @@
     transform: translateX(-100%) rotateY(-180deg);
 }
 
+.cardCont.is-glowing {
+    background-color: #72b472;
+    box-shadow: 0 0 5px 5px;
+}
+
 .card {
     position: absolute;
     object-fit: cover;

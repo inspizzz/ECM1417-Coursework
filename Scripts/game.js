@@ -597,6 +597,11 @@ class Game {
                             const elementId = getIdFromElement(element)
                             const stringId = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
                             instance.found.push(stringId)
+                            element.classList.toggle("is-glowing")
+                            console.log(element, "for glowing")
+                            setTimeout(function() {
+                                element.classList.toggle("is-glowing")
+                            }, 1000)
                         })
 
                         // check if the game is finished
@@ -619,7 +624,7 @@ class Game {
                     // reset variables
                     instance.flipped = []
                     instance.checking = false
-                }, 500);
+                }, 900);
             }
         } else {
             console.log(`[DEBUG] already checking items`)
