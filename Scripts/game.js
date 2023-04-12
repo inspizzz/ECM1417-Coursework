@@ -174,8 +174,10 @@ class Game {
         let tmpFound = ""
 
         this.board.forEach((element) => {
-            tmpBoard += `${element.id}${element.skin}${element.mouth}${element.eyes}|`
+            tmpBoard += `${element.id}/${element.skin}/${element.mouth}/${element.eyes}|`
         })
+        console.log(this.board)
+        console.log(tmpBoard)
 
         this.found.forEach((element) => {
             tmpFound += `${element}|`
@@ -235,10 +237,10 @@ class Game {
         this.board = []
         data.get("board").split("|").forEach((thing) => {
             this.board.push({
-                id: thing.split("")[0],
-                skin: thing.split("")[1],
-                mouth: thing.split("")[2],
-                eyes: thing.split("")[3],
+                id: thing.split("/")[0],
+                skin: thing.split("/")[1],
+                mouth: thing.split("/")[2],
+                eyes: thing.split("/")[3],
             })
         })
 
