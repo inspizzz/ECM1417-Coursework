@@ -30,7 +30,12 @@
 
 .cardCont.is-glowing {
     background-color: #72b472;
-    box-shadow: 0 0 5px 5px;
+    box-shadow: 0 0 5px 5px #72b472;
+}
+
+.cardCont.is-incorrect {
+    background-color: #b47272;
+    box-shadow: 0 0 5px 5px #b47272;
 }
 
 .card {

@@ -67,4 +67,3 @@
             reloadNav()
         </script>
     </div>
-</header>

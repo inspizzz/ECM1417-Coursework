@@ -594,11 +594,17 @@ class Game {
                         console.log(`[DEBUG] MATCH OLEEEE OLEE OLE OLEEHHH`)
 
                         instance.flipped.forEach((element) => {
+
+                            // get the id version of the element
                             const elementId = getIdFromElement(element)
                             const stringId = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
+
+                            // add element to found
                             instance.found.push(stringId)
+
+                            // show glowing effect for correctly found elements
                             element.classList.toggle("is-glowing")
-                            console.log(element, "for glowing")
+
                             setTimeout(function() {
                                 element.classList.toggle("is-glowing")
                             }, 1000)
@@ -618,13 +624,22 @@ class Game {
                         // unflip all
                         instance.flipped.forEach((element) => {
                             element.classList.toggle("is-flipped")
+
+                            // show incorrect effect
+                            element.classList.toggle("is-incorrect")
+
+                            setTimeout(function() {
+
+                                // remove incorrect effect after a second
+                                element.classList.toggle("is-incorrect")
+                            }, 700)
                         })
                     }
 
                     // reset variables
                     instance.flipped = []
                     instance.checking = false
-                }, 900);
+                }, 700);
             }
         } else {
             console.log(`[DEBUG] already checking items`)
