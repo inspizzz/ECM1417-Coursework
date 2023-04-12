@@ -23,8 +23,6 @@ function shuffle(array) {
 }
 
 function getIdFromElement(element) {
-    console.log("[DEBUG] element: ", element)
-
     return {
         id: element.id,
         skin: element.children[0].children[0].id.split("_")[2],
@@ -71,7 +69,7 @@ class Game {
      */
     beforeGame() {
         const data = this.getData()
-        console.log(`[DEBUG] cookie data\n${data}`)
+        // console.log(`[DEBUG] cookie data\n${data}`)
         // check if instance of game is stored in cookies
         if (data !== null) {
 
@@ -91,7 +89,7 @@ class Game {
      */
     async openLoadGame(level, pointsLevel, pointsTotal, timeLeft) {
 
-        console.log(`[DEBUG] level:${level} pointsLevel:${pointsLevel} pointsTotal:${pointsTotal} timeLeft:${timeLeft}`)
+        // console.log(`[DEBUG] level:${level} pointsLevel:${pointsLevel} pointsTotal:${pointsTotal} timeLeft:${timeLeft}`)
         // screen variable
         const main = this.screen
 
@@ -167,7 +165,7 @@ class Game {
      * loaded back into play
      */
     saveData() {
-        console.log(`[DEBUG] saving data`)
+        // console.log(`[DEBUG] saving data`)
 
         // serialise the board and found
         let tmpBoard = ""
@@ -176,8 +174,6 @@ class Game {
         this.board.forEach((element) => {
             tmpBoard += `${element.id}/${element.skin}/${element.mouth}/${element.eyes}|`
         })
-        console.log(this.board)
-        console.log(tmpBoard)
 
         this.found.forEach((element) => {
             tmpFound += `${element}|`
@@ -206,22 +202,21 @@ class Game {
      */
     loadData() {
 
-        console.log("[DEBUG] loading data")
+        // console.log("[DEBUG] loading data")
 
         const data = this.getData()
 
-        console.log(`[DEBUG] load data
-        level: ${data.get("level")}
-        cards to match: ${data.get("cardsToMatch")}
-        number of cards: ${data.get("numberOfCards")}
-        points at level: ${data.get("pointsLevel")}
-        points total: ${data.get("pointsTotal")}
-        flip number: ${data.get("flipNumber")}
-        time left: ${data.get("timeLeft")}
-        board: ${data.get("board")}
-        found: ${data.get("found")}
-        
-        `)
+        // console.log(`[DEBUG] load data
+        // level: ${data.get("level")}
+        // cards to match: ${data.get("cardsToMatch")}
+        // number of cards: ${data.get("numberOfCards")}
+        // points at level: ${data.get("pointsLevel")}
+        // points total: ${data.get("pointsTotal")}
+        // flip number: ${data.get("flipNumber")}
+        // time left: ${data.get("timeLeft")}
+        // board: ${data.get("board")}
+        // found: ${data.get("found")}
+        // `)
 
         this.level = parseInt(data.get("level"))
         this.cardsToMatch = parseInt(data.get("cardsToMatch"))
@@ -257,7 +252,7 @@ class Game {
      */
     getData() {
         const value = `; ${document.cookie}`;
-        console.log(`[DEBUG] grabbed cookie of value: ${value}`)
+        // console.log(`[DEBUG] grabbed cookie of value: ${value}`)
         const parts = value.split(`; game=`);
         if (parts.length === 2) {
             const data = parts.pop().split(';').shift();
@@ -294,70 +289,33 @@ class Game {
     startGame() {
         console.log(`[GAME] game starting`)
 
-        if (this.loaded) {
-            this.startGameFrom()
-            return
-        }
-
         // reset the content of the div
         this.screen.innerHTML = ""
 
-        // generate array of blocks
-        this.board = this.generateBoard()
+        // if loading game, load the board instead of generating a new one
+        if (this.loaded) {
 
-        console.log(`[DEBUG] generated board\n${this.board}`)
-        // place them into the
-        for (let i = 0; i < this.board.length; i++) {
-            const item = this.board[i]
-            this.addCard(item.id, item.skin, item.mouth, item.eyes)
+            // reset the variable as you only need to load the board once
+            this.loaded = false
+
+            // populate the board with cards
+            for (let i = 0; i < this.board.length; i++) {
+                const item = this.board[i]
+                this.addCard(item.id, item.skin, item.mouth, item.eyes)
+            }
+
+        } else {
+            // generate array of blocks
+            this.board = this.generateBoard()
+
+            // populate the board with cards
+            for (let i = 0; i < this.board.length; i++) {
+                const item = this.board[i]
+                this.addCard(item.id, item.skin, item.mouth, item.eyes)
+            }
         }
 
         // begin decrementing the timer and updating it to the board
-        this.timer = setInterval(function() {
-            instance.timeLeft -= 1
-
-            if (instance.timeLeft <= 0) {
-                // timer has finished
-                console.log(`[GAME] timer has finished, end game`)
-                clearInterval(instance.timer)
-                instance.endGame()
-            }
-
-            // update the tag
-            window.document.getElementById("time").innerHTML = instance.timeLeft
-
-            // update the cookie
-            instance.saveData()
-        }, 1000)
-    }
-
-    /**
-     * when loading data from cookies, user wants to start the game from
-     * a pre loaded game position, this includes time and whatnot
-     */
-    startGameFrom() {
-        this.loaded = false
-        console.log("[DEBUG] starting game from a point")
-
-        console.log(`[DEBUG] data
-        level: ${this.level}
-        cards to match: ${this.cardsToMatch}
-        number of cards: ${this.numberOfCards}
-        points at level: ${this.pointsLevel}
-        points total: ${this.pointsTotal}
-        flip number: ${this.flipNumber}
-        time left: ${this.timeLeft}
-        board: `, this.board + `
-        found: `, this.found)
-
-
-        // populate the board with cards
-        for (let i = 0; i < this.board.length; i++) {
-            const item = this.board[i]
-            this.addCard(item.id, item.skin, item.mouth, item.eyes)
-        }
-
-        //begin timer
         this.timer = setInterval(function() {
             instance.timeLeft -= 1
 
@@ -400,7 +358,7 @@ class Game {
             // while an element in the array has skin mouth and eyes the same
             while (combos.includes(`${skin}${mouth}${eyes}`)) {
 
-                console.log(`[DEBUG] card ${skin}${mouth}${eyes} already in combos`)
+                // console.log(`[DEBUG] card ${skin}${mouth}${eyes} already in combos`)
                 // regenerate new face
                 skin = Math.floor(Math.random() * 3)
                 mouth = Math.floor(Math.random() * 6)
@@ -471,7 +429,6 @@ class Game {
         if (this.numberOfCards > 24) {
             this.numberOfCards = 24
         }
-        console.log(`[DEBUG] number of cards: ${this.numberOfCards}\nnumber to match: ${this.cardsToMatch}`)
 
 
 
@@ -489,6 +446,9 @@ class Game {
         // set the visual
         window.document.getElementById("time").innerHTML = this.timeLeft
         window.document.getElementById("level").innerHTML = this.level
+        window.document.getElementById("cardsToMatch").innerHTML = this.cardsToMatch
+        window.document.getElementById("levelScore").innerHTML = this.pointsLevel
+
 
         // save this checkpoint
         this.saveData()
@@ -498,7 +458,6 @@ class Game {
     }
 
     async addCard(id, randomSkin, randomMouth, randomEyes) {
-        console.log(`[DEBUG] adding card with id ${id}`)
         // screen variable
         const main = this.screen
 
@@ -535,13 +494,9 @@ class Game {
                 const elementString = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
 
                 if (instance.found.includes(elementString)) {
-                    console.log("flipping ", thing[i])
-                    setTimeout(function() {
-                        if (!thing[i].classList.contains("is-flipped")) {
-                            thing[i].classList.toggle("is-flipped")
-                        }
-                    }, 50)
-
+                    if (!thing[i].classList.contains("is-flipped")) {
+                        thing[i].classList.toggle("is-flipped")
+                    }
                 }
             }
         }
@@ -563,8 +518,15 @@ class Game {
                 instance.flipped.push(element)
                 element.classList.toggle("is-flipped")
             } else {
+
+                // prevent the actions of the click
                 event.preventDefault()
-                console.log(`[DEBUG] cannot unflip card`)
+
+                // display a red background
+                element.classList.toggle("is-incorrect")
+                setTimeout(function() {
+                    element.classList.toggle("is-incorrect")
+                }, 200)
             }
 
         } else {
@@ -580,18 +542,26 @@ class Game {
 
                 // checking
                 this.checking = true
+                this.flipNumber += 1
 
+                console.log(`flip number is now ${this.flipNumber}`)
+
+                // delay for user to see the actual card before it is hidden
                 setTimeout(function() {
-                    console.log(`[DEBUG] checking card`)
 
                     const face = instance.flipped.every(value => value.children[0].children[0].src === instance.flipped[0].children[0].children[0].src)
                     const eyes = instance.flipped.every(value => value.children[0].children[1].src === instance.flipped[0].children[0].children[1].src)
                     const mouth = instance.flipped.every(value => value.children[0].children[2].src === instance.flipped[0].children[0].children[2].src)
 
-                    console.log(`[DEBUG] face:${face} eyes:${eyes} mouth:${mouth}`)
-
+                    // check if faces match
                     if (face && mouth && eyes) {
                         console.log(`[DEBUG] MATCH OLEEEE OLEE OLE OLEEHHH`)
+
+                        // add points based on time left normalised to 100 points
+                        instance.pointsLevel += parseInt((instance.timeLeft / 60) * 100)
+
+                        // update the score
+                        window.document.getElementById("levelScore").innerHTML = instance.pointsLevel
 
                         instance.flipped.forEach((element) => {
 
@@ -614,8 +584,43 @@ class Game {
                         if (instance.found.length === instance.numberOfCards) {
                             console.log(`[DEBUG] THATS GAME`)
 
-                            // handle the end of the round, next level
-                            instance.nextLevel()
+                            // add code for deducting points for flips + visual
+                            setTimeout(function() {
+                                instance.nextLevel()
+                            }, 5000)
+
+                            // perform point subtractions here
+                            console.log(`subtracted ${(instance.flipNumber - (instance.numberOfCards/instance.cardsToMatch)) * 10} points from the level total`)
+
+                            // subtract it
+                            const scoreElement = window.document.getElementById("levelScore")
+                            let target = instance.pointsLevel - (instance.flipNumber - (instance.numberOfCards/instance.cardsToMatch)) * 10
+
+                            // make it visual, a second later begin to remove the score
+                            setTimeout(function() {
+
+                                // add red glow
+                                scoreElement.classList.toggle("decreasing")
+
+                                // slowly decrease the score
+                                const interval = setInterval(function() {
+                                    instance.pointsLevel -= 1
+                                    scoreElement.innerHTML = instance.pointsLevel
+
+                                    console.log(`currently ${instance.pointsLevel} going towards ${target}`)
+                                    if (instance.pointsLevel === target) {
+                                        clearInterval(interval)
+                                        scoreElement.classList.toggle("decreasing")
+
+                                        // add score to the total score
+                                        instance.pointsTotal += instance.pointsLevel
+                                        window.document.getElementById("totalScore").innerHTML = instance.pointsTotal
+                                    }
+                                }, 20)
+                            }, 1000)
+
+
+
                         }
 
                     } else {

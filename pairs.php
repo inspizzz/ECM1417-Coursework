@@ -17,19 +17,30 @@
         <div id="main">
             <div class="scoresCont">
                 <div class="timerCont">
-                    time left: <h1 id="time"> 60 </h1> s
+                    <div> time left </div>
+                    <div id="time"> 60s </div>
                 </div>
 
                 <div class="levelCont">
-                    level: <h1 id="level"> 1 </h1>
+                    <div> level </div>
+                    <div id="level"> 1 </div>
+                </div>
+
+                <div class="cardsToMatchCont">
+                    <div> cards to match </div>
+                    <div id="cardsToMatch"> 2 </div>
                 </div>
 
                 <div class="levelScoreCont">
-                    score: <h1 id="levelScore"> 0 </h1> points
+                    <div> score  </div>
+                    <div id="levelScore"> 0 </div>
+                    <div> points </div>
                 </div>
 
                 <div class="totalScoreCont">
-                    total score <h1 id="totalScore"> 0 </h1> points
+                    <div> total score </div>
+                    <div id="totalScore"> 0 </div>
+                    <div> points </div>
                 </div>
             </div>
 
