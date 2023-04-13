@@ -10,7 +10,7 @@
     <body>
         <div class="navBarCont">
             <?php
-                include "components/navBar.php";
+                 include "components/navBar.php";
             ?>
         </div>
         
@@ -18,28 +18,28 @@
             <div class="scoresCont">
                 <div class="timerCont">
                     <div> time left </div>
-                    <div id="time"> 60s </div>
+                    <div class="scores" id="time"> 60s </div>
                 </div>
 
                 <div class="levelCont">
                     <div> level </div>
-                    <div id="level"> 1 </div>
+                    <div class="scores" id="level"> 1 </div>
                 </div>
 
                 <div class="cardsToMatchCont">
                     <div> cards to match </div>
-                    <div id="cardsToMatch"> 2 </div>
+                    <div class="scores" id="cardsToMatch"> 2 </div>
                 </div>
 
                 <div class="levelScoreCont">
                     <div> score  </div>
-                    <div id="levelScore"> 0 </div>
+                    <div class="scores" id="levelScore"> 0 </div>
                     <div> points </div>
                 </div>
 
                 <div class="totalScoreCont">
                     <div> total score </div>
-                    <div id="totalScore"> 0 </div>
+                    <div class="scores" id="totalScore"> 0 </div>
                     <div> points </div>
                 </div>
             </div>

@@ -239,7 +239,7 @@ class Game {
             })
         })
 
-        window.document.getElementById("time").innerHTML = this.timeLeft
+        window.document.getElementById("time").innerHTML = this.timeLeft + "s"
         window.document.getElementById("level").innerHTML = this.level
         window.document.getElementById("levelScore").innerHTML = this.pointsLevel
         window.document.getElementById("totalScore").innerHTML = this.pointsTotal
@@ -298,22 +298,40 @@ class Game {
             // reset the variable as you only need to load the board once
             this.loaded = false
 
-            // populate the board with cards
-            for (let i = 0; i < this.board.length; i++) {
-                const item = this.board[i]
-                this.addCard(item.id, item.skin, item.mouth, item.eyes)
-            }
 
         } else {
             // generate array of blocks
             this.board = this.generateBoard()
 
             // populate the board with cards
-            for (let i = 0; i < this.board.length; i++) {
-                const item = this.board[i]
-                this.addCard(item.id, item.skin, item.mouth, item.eyes)
-            }
+
         }
+
+        // populate the board with cards
+        for (let i = 0; i < this.board.length; i++) {
+            const item = this.board[i]
+            this.addCard(item.id, item.skin, item.mouth, item.eyes, function(element) {
+                // add flipping to all items
+                const thing = window.document.getElementsByClassName("cardCont")
+
+                for (let i = 0 ; i < thing.length ; i++) {
+                    thing[i].addEventListener("click", function(event) {
+                        instance.flip(event, this)
+                    })
+
+                    const elementId = getIdFromElement(thing[i])
+                    const elementString = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
+
+                    if (instance.found.includes(elementString)) {
+                        if (!thing[i].classList.contains("is-flipped")) {
+                            thing[i].classList.toggle("is-flipped")
+                        }
+                    }
+                }
+            })
+        }
+
+
 
         // begin decrementing the timer and updating it to the board
         this.timer = setInterval(function() {
@@ -327,7 +345,7 @@ class Game {
             }
 
             // update the tag
-            window.document.getElementById("time").innerHTML = instance.timeLeft
+            window.document.getElementById("time").innerHTML = instance.timeLeft + "s"
 
             // update the cookie
             instance.saveData()
@@ -444,7 +462,7 @@ class Game {
         this.checking = false
 
         // set the visual
-        window.document.getElementById("time").innerHTML = this.timeLeft
+        window.document.getElementById("time").innerHTML = this.timeLeft + "s"
         window.document.getElementById("level").innerHTML = this.level
         window.document.getElementById("cardsToMatch").innerHTML = this.cardsToMatch
         window.document.getElementById("levelScore").innerHTML = this.pointsLevel
@@ -457,7 +475,7 @@ class Game {
         this.startGame()
     }
 
-    async addCard(id, randomSkin, randomMouth, randomEyes) {
+    async addCard(id, randomSkin, randomMouth, randomEyes, finished) {
         // screen variable
         const main = this.screen
 
@@ -482,27 +500,14 @@ class Game {
             result = result.replace("eyesImage", `./assets/emoji/eyes/${eyes[randomEyes]}`)
 
             main.innerHTML += result
-
-            const thing = window.document.getElementsByClassName("cardCont")
-
-            for (let i = 0 ; i < thing.length ; i++) {
-                thing[i].addEventListener("click", function(event) {
-                    instance.flip(event, this)
-                })
-
-                const elementId = getIdFromElement(thing[i])
-                const elementString = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
-
-                if (instance.found.includes(elementString)) {
-                    if (!thing[i].classList.contains("is-flipped")) {
-                        thing[i].classList.toggle("is-flipped")
-                    }
-                }
-            }
         }
 
         // send
         await client.send()
+
+        client.onloadend = function () {
+            finished()
+        }
     }
 
     flip(event, element) {
@@ -558,7 +563,7 @@ class Game {
                         console.log(`[DEBUG] MATCH OLEEEE OLEE OLE OLEEHHH`)
 
                         // add points based on time left normalised to 100 points
-                        instance.pointsLevel += parseInt((instance.timeLeft / 60) * 100)
+                        instance.pointsLevel += parseInt((instance.timeLeft / 60) * 100) * instance.cardsToMatch
 
                         // update the score
                         window.document.getElementById("levelScore").innerHTML = instance.pointsLevel
@@ -604,10 +609,8 @@ class Game {
 
                                 // slowly decrease the score
                                 const interval = setInterval(function() {
-                                    instance.pointsLevel -= 1
-                                    scoreElement.innerHTML = instance.pointsLevel
-
                                     console.log(`currently ${instance.pointsLevel} going towards ${target}`)
+
                                     if (instance.pointsLevel === target) {
                                         clearInterval(interval)
                                         scoreElement.classList.toggle("decreasing")
@@ -615,6 +618,9 @@ class Game {
                                         // add score to the total score
                                         instance.pointsTotal += instance.pointsLevel
                                         window.document.getElementById("totalScore").innerHTML = instance.pointsTotal
+                                    } else {
+                                        instance.pointsLevel -= 1
+                                        scoreElement.innerHTML = instance.pointsLevel
                                     }
                                 }, 20)
                             }, 1000)

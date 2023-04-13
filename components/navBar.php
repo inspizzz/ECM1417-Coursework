@@ -1,8 +1,8 @@
 <header>
-    <link rel="stylesheet" href="./components/navBar.css">
+    <link rel="stylesheet" href="../components/navBar.css">
 
-    <script src="session/profile.js"></script>
-    <script src="session/register.js"></script>
+    <script src="../session/profile.js"></script>
+    <script src="../session/register.js"></script>
 
     <div class="navBar">
         <div class="navBarLeft">

@@ -4,7 +4,8 @@
         <link rel="stylesheet" href="./css/global.css">
         <link rel="stylesheet" href="./css/index.css">
 
-        <script src="session/profile.js"></script>
+        <script src="./session/profile.js"></script>
+        <script src="./session/register.js"></script>
     </head>
 
     <body>

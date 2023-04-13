@@ -1,10 +1,6 @@
 PAIRS GAME COMPLEX
-- load initial start game
-- record total number of points
-- record number of points per level
-- points calculated by time and attempted matched
-- background colour of gray div changes if the user exceeds the previous be
-- when the timer ends / game finishes ask the user to submit or restart
+- background colour of gray div changes if the user exceeds the previous best score
+- when the timer ends / game finishes ask the user to submit or restarts
 
 
 LEADERBOARD

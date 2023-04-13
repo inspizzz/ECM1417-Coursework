@@ -18,8 +18,13 @@
     width: 50vw;
 }
 
+.scores {
+    font-weight: bolder;
+    font-size: 30px;
+}
+
 .scoresCont > * {
-    font-size: 10px;
+    font-size: 20px;
     font-weight: lighter;
 }
 .timerCont {
@@ -29,6 +34,8 @@
     align-items: center;
 }
 
+
+
 .levelCont {
     display: flex;
     flex-direction: column;
@@ -36,12 +43,14 @@
     align-items: center;
 }
 
+
 .cardsToMatchCont {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 
 .levelScoreCont {
     display: flex;
