@@ -1,7 +1,11 @@
 PAIRS GAME COMPLEX
 - background colour of gray div changes if the user exceeds the previous best score
 - when the timer ends / game finishes ask the user to submit or restarts
+- at the end of the game when it finishes, request the user to submit their total score along with their level score
+-
 
 
 LEADERBOARD
 - do it
+
+- ask the user if they wish to upload their score or if they wish to start again

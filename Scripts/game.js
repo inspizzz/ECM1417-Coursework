@@ -40,6 +40,14 @@ class Game {
         if (instance) {
             throw new Error("cannot create more than one instance of the class")
         }
+
+        // game running
+        this.running = true
+
+        // game running score
+        this.levelScore = new Map()
+
+        // game running logic
         this.screen = main;
         this.level = 1
         this.cardsToMatch = 2
@@ -47,14 +55,17 @@ class Game {
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
-        this.timeLeft = 60
+        this.timeLeft = 2
 
+        // card game logic
         this.flipped = []
         this.found = []
         this.checking = false
 
+        // when loading the game dont generate cards, just load them
         this.loaded = false
 
+        // the instance of this class that is public, singleton
         instance = this
     }
 
@@ -192,7 +203,7 @@ class Game {
      */
     removeData() {
         console.log("[GAME] removing data")
-        document.cookie = "game=null"
+        document.cookie = 'game=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
     /**
@@ -337,6 +348,12 @@ class Game {
         this.timer = setInterval(function() {
             instance.timeLeft -= 1
 
+            // update the tag
+            window.document.getElementById("time").innerHTML = instance.timeLeft + "s"
+
+            // update the cookie
+            instance.saveData()
+
             if (instance.timeLeft <= 0) {
                 // timer has finished
                 console.log(`[GAME] timer has finished, end game`)
@@ -344,11 +361,7 @@ class Game {
                 instance.endGame()
             }
 
-            // update the tag
-            window.document.getElementById("time").innerHTML = instance.timeLeft + "s"
 
-            // update the cookie
-            instance.saveData()
         }, 1000)
     }
 
@@ -405,6 +418,10 @@ class Game {
     }
 
     nextLevel() {
+
+        // add the current score to
+        this.levelScore.set(this.level, this.pointsLevel)
+        console.log(`[DEBUG] ${this.levelScore}`)
 
         // reset the timer
         clearInterval(this.timer)
@@ -519,7 +536,7 @@ class Game {
             const stringId = `${elementId.id}${elementId.skin}${elementId.mouth}${elementId.eyes}`
 
             // check if the element is already flipped
-            if (!instance.flipped.includes(element) && !instance.found.includes(stringId)) {
+            if (!instance.flipped.includes(element) && !instance.found.includes(stringId) && this.running) {
                 instance.flipped.push(element)
                 element.classList.toggle("is-flipped")
             } else {
@@ -663,8 +680,94 @@ class Game {
      * display
      */
     endGame() {
+
+        // let the whole program know the games ended
+        this.running = false
+
         // remove saved game from
         this.removeData()
+
+        // open end game dialogue
+        this.openEndGame()
     }
+
+    // --------------------------------------------------------------------
+    // ------------------------- POST GAME CHECKS -------------------------
+    // --------------------------------------------------------------------
+
+    openEndGame() {
+        // screen variable, cannot use this in function
+        const main = this.screen;
+
+        // ask the user to start the game
+        let client = new XMLHttpRequest();
+        client.open("GET", "./components/endGame/endGame.php");
+        client.onreadystatechange = function() {
+            main.innerHTML = client.responseText
+        }
+
+        // send to dom
+        client.send();
+
+        client.onloadend = function() {
+            const profile = getProfile()
+            console.log(profile)
+            window.document.getElementById("profileSkin").src = profile.skin
+            window.document.getElementById("profileEyes").src = profile.eyes
+            window.document.getElementById("profileMouth").src = profile.mouth
+        }
+    }
+
+    closeEndGame() {
+        const endElement = window.document.getElementById("endGame")
+        endElement.style.display = "none"
+    }
+
+    // --------------------------------------------------------------------
+    // ------------------------ POST GAME DATABASE ------------------------
+    // --------------------------------------------------------------------
+
+    /**
+     * after the user has ended the game by losing, they get
+     * the option to save their score to a database that is
+     * set up and running on the server
+     */
+    saveToDatabase() {
+        // save the user profile
+        // save the total score
+        // save the score per level
+    }
+
+    /**
+     * get the max score for the current level, this will come
+     * in handy when the background should turn golden when the
+     * user has surpassed the levels max score
+     *
+     * @param level this is the level to check
+     *
+     * @return the integer max score
+     */
+    getMaxScoreForLevel(level) {
+
+    }
+
+    /**
+     * return an array of maps of all the users who have saved
+     * their data, this data includes their profile picture,
+     * their max score and the max level that they have reached
+     *
+     * @return an array of maps
+     */
+    getScoresFromDatabase() {
+        let result = []
+
+        // acquire data from the database in order of max score
+
+        return result
+    }
+
+    // --------------------------------------------------------------------
+    // --------------------- POST GAME DATABASE ERROR ---------------------
+    // --------------------------------------------------------------------
 }
 

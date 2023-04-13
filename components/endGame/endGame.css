@@ -1,0 +1,111 @@
+#endGame {
+    z-index: 10000000;
+    display: flex;
+}
+
+.endGameCont {
+
+    padding: 10px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 99999;
+
+    background-color: #c0c0c0;
+}
+
+.decisionCont {
+    display: flex;
+    gap: 10px;
+
+}
+
+.profilePictureCont {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.statsCont {
+    display: flex;
+    gap: 10px;
+}
+
+.endGameSave {
+    background-color: white;
+
+    width: 100%;
+    height: auto;
+    z-index: 9999;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    border-radius: 10px;
+    border: 1px black;
+}
+
+.endGameSave:hover {
+    background-color: #89ab81;
+}
+
+.endGameCancel {
+    background-color: white;
+
+    width: 100%;
+    height: auto;
+    z-index: 9999;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    border-radius: 10px;
+    border: 1px black;
+}
+
+.endGameCancel:hover {
+    background-color: #ab8181;
+}
+
+.profilePictureCont {
+    position: relative;
+
+    max-width: 50px;
+    max-height: 50px;
+
+    background-color: azure;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profilePictureCont > * {
+    object-fit: cover;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+
+    position: absolute;
+}
+
+.endGameTotalScoreCont {
+    background-color: azure;
+    width: auto;
+    height: 50px;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.endGameTotalScore {
+    padding: 10px;
+}
