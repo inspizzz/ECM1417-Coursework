@@ -22,8 +22,8 @@
         </div>
 
         <div class="decisionCont">
-            <button class="endGameSave" onClick=""> save score</button>
-            <button class="endGameCancel" onClick=""> ignore score </button>
+            <button class="endGameSave" onClick="game.saveScores(); window.location.href='./leaderboard.php'"> save score</button>
+            <button class="endGameCancel" onClick="game.closeEndGame(); game.beforeGame()"> ignore score </button>
         </div>
     </div>
 </header>

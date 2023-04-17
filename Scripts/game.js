@@ -55,7 +55,7 @@ class Game {
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
-        this.timeLeft = 2
+        this.timeLeft = 30
 
         // card game logic
         this.flipped = []
@@ -79,6 +79,24 @@ class Game {
      * load if yes ignore if no then ask the user to start the game
      */
     beforeGame() {
+
+        // reset variables
+        this.running = true
+        this.levelScore = new Map()
+        this.level = 1
+        this.cardsToMatch = 2
+        this.numberOfCards = 6
+        this.pointsLevel = 0
+        this.pointsTotal = 0
+        this.flipNumber = 0
+        this.timeLeft = 30
+        this.flipped = []
+        this.found = []
+        this.checking = false
+
+        // when loading the game dont generate cards, just load them
+        this.loaded = false
+
         const data = this.getData()
         // console.log(`[DEBUG] cookie data\n${data}`)
         // check if instance of game is stored in cookies
@@ -360,8 +378,6 @@ class Game {
                 clearInterval(instance.timer)
                 instance.endGame()
             }
-
-
         }, 1000)
     }
 
@@ -580,7 +596,7 @@ class Game {
                         console.log(`[DEBUG] MATCH OLEEEE OLEE OLE OLEEHHH`)
 
                         // add points based on time left normalised to 100 points
-                        instance.pointsLevel += parseInt((instance.timeLeft / 60) * 100) * instance.cardsToMatch
+                        instance.pointsLevel += parseInt((instance.timeLeft / 60) * 100) * instance.cardsToMatch * instance.level
 
                         // update the score
                         window.document.getElementById("levelScore").innerHTML = instance.pointsLevel
@@ -641,9 +657,6 @@ class Game {
                                     }
                                 }, 20)
                             }, 1000)
-
-
-
                         }
 
                     } else {
@@ -680,6 +693,10 @@ class Game {
      * display
      */
     endGame() {
+
+        // update the scores with the new totals and per level
+        this.levelScore.set(this.level, this.pointsLevel)
+        instance.pointsTotal += instance.pointsLevel
 
         // let the whole program know the games ended
         this.running = false
@@ -729,13 +746,53 @@ class Game {
 
     /**
      * after the user has ended the game by losing, they get
-     * the option to save their score to a database that is
-     * set up and running on the server
+     * the option to save their data to cookie
      */
-    saveToDatabase() {
-        // save the user profile
+    saveScores() {
+        // add user information to the scores map
+
+        console.log("saving things")
+
+        let newArray = []
+        // if existing data exists then populate it
+        if (this.getScores()) {
+            newArray = this.getScores()
+            console.log("before")
+            console.log(newArray)
+        }
+
+        // get the profile
+        const profile = getProfile()
+
+        // add existing data to it
+        this.levelScore.set("username", getUsername().username)
+        this.levelScore.set("total", this.pointsTotal)
+        this.levelScore.set("skin", profile.skin)
+        this.levelScore.set("eyes", profile.eyes)
+        this.levelScore.set("mouth", profile.mouth)
+
+        newArray.push(this.levelScore)
+
+        let content = ""
+
+        console.log("after")
+        console.log(newArray)
+
+        for (let element = 0 ; element < newArray.length ; element++) {
+            console.log(newArray[element])
+            for (let [key, value] of newArray[element].entries()) {
+                content += `${key}:${value},`
+            }
+            content = content.slice(0, -1)
+            content += "/"
+        }
+        content = content.slice(0, -1)
+
+        console.log("saving:")
+        console.log(content)
+
         // save the total score
-        // save the score per level
+        document.cookie = `scores=${content}`
     }
 
     /**
@@ -747,8 +804,22 @@ class Game {
      *
      * @return the integer max score
      */
-    getMaxScoreForLevel(level) {
+    getMaxScore(level) {
+        let max = -1
 
+        for (let element in this.getScores()) {
+            if (element.has(level)) {
+                if (element.get(level) > max) {
+                    max = element.get(level)
+                }
+            }
+        }
+
+        if (max > 0) {
+            return max
+        } else {
+            return null
+        }
     }
 
     /**
@@ -758,16 +829,34 @@ class Game {
      *
      * @return an array of maps
      */
-    getScoresFromDatabase() {
-        let result = []
+    getScores() {
+        // key:value,key:value/map/map
 
-        // acquire data from the database in order of max score
-
-        return result
+        let name = "scores=";
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                const thing = c.substring(name.length, c.length);
+                let array = []
+                for (let element = 0 ; element < thing.split("/").length ; element++) {
+                    console.log(`element: ${thing.split("/")}`)
+                    console.log(element)
+                    console.log(thing.split("/").length)
+                    let tmpMap = new Map()
+                    let keyValues = thing.split("/")[element].split(",")
+                    for (let keyValue = 0 ; keyValue < keyValues.length ; keyValue++ ) {
+                        tmpMap.set(keyValues[keyValue].split(":")[0], keyValues[keyValue].split(":")[1])
+                    }
+                    array.push(tmpMap)
+                }
+                return array
+            }
+        }
+        return null;
     }
-
-    // --------------------------------------------------------------------
-    // --------------------- POST GAME DATABASE ERROR ---------------------
-    // --------------------------------------------------------------------
 }
 

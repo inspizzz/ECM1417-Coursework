@@ -15,8 +15,9 @@
         </div>
 
         <div id="main">
-            this is inside leaderboard
-        </div>
+            <div class="leaderboardCont">
 
+            </div>
+        </div>
     </body>
 </html>
