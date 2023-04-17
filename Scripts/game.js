@@ -378,6 +378,13 @@ class Game {
                 clearInterval(instance.timer)
                 instance.endGame()
             }
+
+            console.log(`${instance.pointsLevel} > ${instance.getMaxScore(instance.level)}`)
+
+            if (instance.pointsLevel > instance.getMaxScore(instance.level)) {
+                console.log("WINNING")
+                window.document.getElementById("game").style.background = "gold"
+            }
         }, 1000)
     }
 
@@ -434,6 +441,9 @@ class Game {
     }
 
     nextLevel() {
+
+        // reset the background
+        window.document.getElementById("game").style.background = "gray"
 
         // add the current score to
         this.levelScore.set(this.level, this.pointsLevel)
@@ -621,6 +631,9 @@ class Game {
                         // check if the game is finished
                         if (instance.found.length === instance.numberOfCards) {
                             console.log(`[DEBUG] THATS GAME`)
+
+                            // stop the clock
+                            clearInterval(instance.timer)
 
                             // add code for deducting points for flips + visual
                             setTimeout(function() {
@@ -811,10 +824,14 @@ class Game {
     getMaxScore(level) {
         let max = -1
 
-        for (let element in this.getScores()) {
-            if (element.has(level)) {
-                if (element.get(level) > max) {
-                    max = element.get(level)
+        const scores = this.getScores()
+
+        for (let i = 0 ; i < scores.length ; i++) {
+            const map = scores[i]
+            if (Array.from(map.keys()).includes(level.toString())) {
+                console.log(`one score ${map.get(level.toString())}`)
+                if (parseInt(map.get(level.toString())) > max) {
+                    max = map.get(level.toString())
                 }
             }
         }
@@ -847,9 +864,6 @@ class Game {
                 const thing = c.substring(name.length, c.length);
                 let array = []
                 for (let element = 0 ; element < thing.split("|").length ; element++) {
-                    console.log(`element: ${thing.split("|")}`)
-                    console.log(element)
-                    console.log(thing.split("|").length)
                     let tmpMap = new Map()
                     let keyValues = thing.split("|")[element].split(",")
                     for (let keyValue = 0 ; keyValue < keyValues.length ; keyValue++ ) {
