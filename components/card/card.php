@@ -2,7 +2,6 @@
     <link rel="stylesheet" href="./components/card/card.css" />
     <script src="./Scripts/game.js"></script>
 
-<!--    onClick="function clickie(event) { console.log(event); event.target.classList.toggle('is-flipped') }; clickie(event)"-->
     <div class="cardCont" id="tmpContainer" >
 
         <div class="card card--front">

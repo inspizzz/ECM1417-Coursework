@@ -625,6 +625,9 @@ class Game {
                             // add code for deducting points for flips + visual
                             setTimeout(function() {
                                 instance.nextLevel()
+                                if (this.interval) {
+                                    clearInterval(this.interval)
+                                }
                             }, 5000)
 
                             // perform point subtractions here
@@ -641,11 +644,11 @@ class Game {
                                 scoreElement.classList.toggle("decreasing")
 
                                 // slowly decrease the score
-                                const interval = setInterval(function() {
+                                this.interval = setInterval(function() {
                                     console.log(`currently ${instance.pointsLevel} going towards ${target}`)
 
                                     if (instance.pointsLevel === target) {
-                                        clearInterval(interval)
+                                        clearInterval(this.interval)
                                         scoreElement.classList.toggle("decreasing")
 
                                         // add score to the total score
@@ -732,6 +735,7 @@ class Game {
             window.document.getElementById("profileSkin").src = profile.skin
             window.document.getElementById("profileEyes").src = profile.eyes
             window.document.getElementById("profileMouth").src = profile.mouth
+            window.document.getElementById("endGameTotalScore").innerHTML = `${instance.pointsTotal} points`
         }
     }
 
@@ -781,10 +785,10 @@ class Game {
         for (let element = 0 ; element < newArray.length ; element++) {
             console.log(newArray[element])
             for (let [key, value] of newArray[element].entries()) {
-                content += `${key}:${value},`
+                content += `${key}>${value},`
             }
             content = content.slice(0, -1)
-            content += "/"
+            content += "|"
         }
         content = content.slice(0, -1)
 
@@ -842,14 +846,14 @@ class Game {
             if (c.indexOf(name) === 0) {
                 const thing = c.substring(name.length, c.length);
                 let array = []
-                for (let element = 0 ; element < thing.split("/").length ; element++) {
-                    console.log(`element: ${thing.split("/")}`)
+                for (let element = 0 ; element < thing.split("|").length ; element++) {
+                    console.log(`element: ${thing.split("|")}`)
                     console.log(element)
-                    console.log(thing.split("/").length)
+                    console.log(thing.split("|").length)
                     let tmpMap = new Map()
-                    let keyValues = thing.split("/")[element].split(",")
+                    let keyValues = thing.split("|")[element].split(",")
                     for (let keyValue = 0 ; keyValue < keyValues.length ; keyValue++ ) {
-                        tmpMap.set(keyValues[keyValue].split(":")[0], keyValues[keyValue].split(":")[1])
+                        tmpMap.set(keyValues[keyValue].split(">")[0], keyValues[keyValue].split(">")[1])
                     }
                     array.push(tmpMap)
                 }

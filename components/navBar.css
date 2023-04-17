@@ -43,7 +43,7 @@
 .text {
     font-size: 12px;
     font-weight: bold;
-    font: verdana;
+    font-family: Verdana,Geneva,sans-serif;
 }
 
 .profileCont {
