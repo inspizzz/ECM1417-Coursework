@@ -71,7 +71,7 @@ class Game {
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
-        this.timeLeft = 30
+        this.timeLeft = 60
 
         // card game logic
         this.flipped = []
@@ -105,7 +105,7 @@ class Game {
         this.pointsLevel = 0
         this.pointsTotal = 0
         this.flipNumber = 0
-        this.timeLeft = 30
+        this.timeLeft = 60
         this.flipped = []
         this.found = []
         this.checking = false
