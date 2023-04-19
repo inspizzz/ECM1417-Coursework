@@ -22,6 +22,13 @@ function shuffle(array) {
     return array;
 }
 
+/**
+ * convert the element into an id
+ *
+ * @param element the element to get the id from
+ *
+ * @return {{mouth: string, skin: string, id, eyes: string}} its respective elements
+ */
 function getIdFromElement(element) {
     return {
         id: element.id,
@@ -31,11 +38,20 @@ function getIdFromElement(element) {
     }
 }
 
+// instance of the whole game
 let instance;
 
+/**
+ * the game class, this holds all of the functionality for the pairs game
+ */
 class Game {
 
 
+    /**
+     * constructor for this class
+     *
+     * @param main the div that is to be populated and modified
+     */
     constructor(main) {
         if (instance) {
             throw new Error("cannot create more than one instance of the class")
@@ -445,6 +461,11 @@ class Game {
         return cards
     }
 
+    /**
+     * handle the next level when it occurrs, this includes changing variables,
+     * deducting the score lost from incorrect flips and resetting the
+     * background color if gold is being shown
+     */
     nextLevel() {
 
         // reset the background
@@ -492,15 +513,16 @@ class Game {
             this.numberOfCards = Math.ceil((6 + this.level * 2 / 4) / 4.0) * 4
         }
 
+        // max number of cards on the board is 24
         if (this.numberOfCards > 24) {
             this.numberOfCards = 24
         }
 
-
-
+        // alternative algorithm
         // this.cardsToMatch = (this.level < 5) ? (2) : ((this.level < 10) ? (3) : (4))
         // this.numberOfCards = (this.level * (this.cardsToMatch) < 24) ? (this.level * this.cardsToMatch) : (24)
 
+        // reset variables
         this.pointsLevel = 0
         this.flipNumber = 0
         this.timeLeft = 60
@@ -523,6 +545,17 @@ class Game {
         this.startGame()
     }
 
+    /**
+     * a function that uses xml to add a card directly to the board
+     *
+     * @param id the intended cards id
+     * @param randomSkin a string link to the cards skin
+     * @param randomMouth a string link to the cards mouth
+     * @param randomEyes a string link to the cards eyes
+     * @param finished a function that is ran after the card is added
+     *
+     * @return {Promise<void>} a promise that resolves once the card is added to the board
+     */
     async addCard(id, randomSkin, randomMouth, randomEyes, finished) {
         // screen variable
         const main = this.screen
