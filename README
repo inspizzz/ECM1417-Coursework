@@ -45,6 +45,7 @@
   leaderboard page
 - cards that cannot be flipped flash red informing the user that they cannot be flipped
 - cards that have been matched glow green
+- uses singleton class instance
 
 
 // LEADERBOARD

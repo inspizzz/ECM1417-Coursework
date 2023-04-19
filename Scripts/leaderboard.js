@@ -1,6 +1,19 @@
 
+// the leaderboard class singleton instance
 let LeaderboardInstance;
+
+/**
+ * the leaderboard class that manipulates the leaderboard
+ * visual aspects such as what it shows to the user
+ */
 class Leaderboard {
+
+    /**
+     * constructor for this class, it takes the main div
+     * as an argument
+     *
+     * @param main the main leaderboard container that is to be modified
+     */
     constructor(main) {
         if (LeaderboardInstance) {
             throw new Error("cannot create more than one instance of the class")
@@ -11,7 +24,18 @@ class Leaderboard {
         LeaderboardInstance = this
     }
 
-    //populate the loaderboard
+    /**
+     * add a leaderboard item to the container
+     *
+     * @param skin the skin link
+     * @param eyes the eyes link
+     * @param mouth the mouth link
+     * @param username the username link
+     * @param score the score
+     * @param maxLevel the max score
+     *
+     * @return {Promise<void>} returns a promise that resolves once the leaderboard is updated
+     */
     async addItem(skin, eyes, mouth, username, score, maxLevel) {
 
         console.log(`the max level is: ${maxLevel}`)
@@ -39,6 +63,9 @@ class Leaderboard {
 
     }
 
+    /**
+     * populates the leaderboard with the current scores
+     */
     loadScores() {
         // iterate over all of the scores
         const scores = this.getScores()
@@ -60,23 +87,27 @@ class Leaderboard {
 
     }
 
+    /**
+     * returns the scores cookie dat split up into arrays where
+     * each element represents an individual attempt containing a
+     * map that has the score, skin, mouth ... etc data
+     *
+     * @return {[]|null} the data or null if none exists
+     */
     getScores() {
         // key:value,key:value/map/map
 
         let name = "scores=";
-        let ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
+        let segments = document.cookie.split(';');
+        for(let i = 0; i < segments.length; i++) {
+            let segment = segments[i];
+            while (segment.charAt(0) === ' ') {
+                segment = segment.substring(1);
             }
-            if (c.indexOf(name) === 0) {
-                const thing = c.substring(name.length, c.length);
+            if (segment.indexOf(name) === 0) {
+                const thing = segment.substring(name.length, c.length);
                 let array = []
                 for (let element = 0 ; element < thing.split("|").length ; element++) {
-                    console.log(`element: ${thing.split("|")}`)
-                    console.log(element)
-                    console.log(thing.split("|").length)
                     let tmpMap = new Map()
                     let keyValues = thing.split("|")[element].split(",")
                     for (let keyValue = 0 ; keyValue < keyValues.length ; keyValue++ ) {
