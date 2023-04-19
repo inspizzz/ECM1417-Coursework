@@ -11,7 +11,7 @@
     <body>
         <div class="navBarCont">
             <?php
-                include "components/navBar.php";
+                include "components/navBar/navBar.php";
             ?>
         </div>
 

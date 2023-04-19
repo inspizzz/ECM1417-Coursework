@@ -1,5 +1,5 @@
 <header>
-    <link rel="stylesheet" href="navBar.css">
+    <link rel="stylesheet" href="./components/navBar/navBar.css">
 
     <script src="../../session/profile.js"></script>
     <script src="../../session/register.js"></script>

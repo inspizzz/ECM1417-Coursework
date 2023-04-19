@@ -1,5 +1,7 @@
 <header id="startGame">
+    <link rel="stylesheet" href="./css/global.css" />
     <link rel="stylesheet" href="./components/startGame/startGame.css" />
+
     <script src="./Scripts/game.js"></script>
 
     <div class="backdrop">
