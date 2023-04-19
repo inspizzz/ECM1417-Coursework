@@ -105,7 +105,7 @@ class Leaderboard {
                 segment = segment.substring(1);
             }
             if (segment.indexOf(name) === 0) {
-                const thing = segment.substring(name.length, c.length);
+                const thing = segment.substring(name.length, segment.length);
                 let array = []
                 for (let element = 0 ; element < thing.split("|").length ; element++) {
                     let tmpMap = new Map()
