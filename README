@@ -43,6 +43,8 @@
 - after the game ends the user is presented the end game modal where they may decide weather or not to save
   their score or to restart the game, if they choose to save their score then they are redirected to the
   leaderboard page
+- cards that cannot be flipped flash red informing the user that they cannot be flipped
+- cards that have been matched glow green
 
 
 // LEADERBOARD

@@ -381,10 +381,15 @@ class Game {
 
             console.log(`${instance.pointsLevel} > ${instance.getMaxScore(instance.level)}`)
 
-            if (instance.pointsLevel > instance.getMaxScore(instance.level)) {
-                console.log("WINNING")
-                window.document.getElementById("game").style.background = "gold"
+            if (instance.getMaxScore(instance.level)) {
+                if (instance.pointsLevel > instance.getMaxScore(instance.level)) {
+                    console.log("WINNING")
+                    window.document.getElementById("game").style.background = "gold"
+                }
+            } else {
+                console.log("could not get max score, no users logged")
             }
+
         }, 1000)
     }
 
@@ -553,6 +558,15 @@ class Game {
         }
     }
 
+    /**
+     * handle the flip of a card, recognize if the flip is first or last,
+     * then check if all of the cards match, if yes then handle that
+     * if not then flip them back. also do not flip cards that have already
+     * been flipped and much more visual features
+     *
+     * @param event the event details
+     * @param element the element that has been flipped
+     */
     flip(event, element) {
 
         // add element if the length is less than 2
@@ -728,6 +742,11 @@ class Game {
     // ------------------------- POST GAME CHECKS -------------------------
     // --------------------------------------------------------------------
 
+    /**
+     * open the end game modal, do this by loading it using xml
+     * and then send it to the client adding it to the inner
+     * html of the correct div
+     */
     openEndGame() {
         // screen variable, cannot use this in function
         const main = this.screen;
@@ -752,6 +771,9 @@ class Game {
         }
     }
 
+    /**
+     * close the end game modal by setting its display to none
+     */
     closeEndGame() {
         const endElement = window.document.getElementById("endGame")
         endElement.style.display = "none"
@@ -763,7 +785,8 @@ class Game {
 
     /**
      * after the user has ended the game by losing, they get
-     * the option to save their data to cookie
+     * the option to save their data to cookie so that it can
+     * be placed in the leaderboard
      */
     saveScores() {
         // add user information to the scores map
@@ -826,17 +849,23 @@ class Game {
 
         const scores = this.getScores()
 
-        for (let i = 0 ; i < scores.length ; i++) {
-            const map = scores[i]
-            if (Array.from(map.keys()).includes(level.toString())) {
-                console.log(`one score ${map.get(level.toString())}`)
-                if (parseInt(map.get(level.toString())) > max) {
-                    max = map.get(level.toString())
+        // prevent code executing if no scores are found
+        if (scores) {
+
+            // decode each score finding the score from each save for given level
+            for (let i = 0 ; i < scores.length ; i++) {
+                const map = scores[i]
+                if (Array.from(map.keys()).includes(level.toString())) {
+                    console.log(`one score ${map.get(level.toString())}`)
+                    if (parseInt(map.get(level.toString())) > max) {
+                        max = map.get(level.toString())
+                    }
                 }
             }
         }
 
-        if (max > 0) {
+        // return the max score for given level
+        if (max >= 0) {
             return max
         } else {
             return null
@@ -851,17 +880,15 @@ class Game {
      * @return an array of maps
      */
     getScores() {
-        // key:value,key:value/map/map
-
         let name = "scores=";
-        let ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
+        let fragments = document.cookie.split(';');
+        for(let i = 0; i < fragments.length; i++) {
+            let fragment = fragments[i];
+            while (fragment.charAt(0) === ' ') {
+                fragment = fragment.substring(1);
             }
-            if (c.indexOf(name) === 0) {
-                const thing = c.substring(name.length, c.length);
+            if (fragment.indexOf(name) === 0) {
+                const thing = fragment.substring(name.length, c.length);
                 let array = []
                 for (let element = 0 ; element < thing.split("|").length ; element++) {
                     let tmpMap = new Map()
