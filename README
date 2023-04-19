@@ -1,1 +1,53 @@
-- add features in here, state that everything has been done to the complex standard as well as additional save score feature and some things
+// ------------------------------------------------------------
+// ------------------------- FEATURES -------------------------
+// ------------------------------------------------------------
+
+
+// navigation bar
+- shows the user the navigation bar which also updates depending on weather the user is logged in or not
+  if the user is logged in then the user may go back to the home page, go to the pairs game, go to the leaderboard
+  or see their user icon in the top left corner. if the user is not logged in then the user may go back
+  to the home page or
+
+
+// INDEX
+- shows the register modal if the user is not logged in
+- shows a button that when clicks redirects the user to the pairs game
+- displays the background image in such a way that when resized maintains aspect ratio
+- shows the navigation bar
+
+
+// REGISTER
+- shows a registration modal
+- user may select their profile image depending on their choice with the arrows provided
+- user chooses their username
+- username is checked using regex against defined values in specification
+- if the username is invalid then a small red shake animation is shown
+
+
+// PAIRS
+- game is saved every second while playing so that when the user leaves, they may resume the game later
+- user is greeted with a load game modal if a saved game version is detected
+- if no saved game is detected then the user is greeted with a start game modal
+- the start game modal contains a start game button which begins the game
+- each level consists of some cards that may be flipped
+- first 4 levels contain cards that needs to be flipped to find 2 matching, then from level 5 to level 9
+  each level alternates from 2 matching to 3 matching, then after level 10 4 matching are introduces
+- the game has a countdown from 60 that once it reaches 0 stops the game and shows the end game modal
+- if the user reaches a larger score in the game than any previous attempts the background changes to gold
+  and then resets back to gray once the level finishes
+- after each level some data resets and points are deducted from the level score depending on how many attempts
+  have been made. This in animated in red color and shows the points being deducted in a decreasing fashion
+- above the game container, there is some information displayed, such as time left, amount of cards to match,
+  total score, and score reached in the level
+- after the game ends the user is presented the end game modal where they may decide weather or not to save
+  their score or to restart the game, if they choose to save their score then they are redirected to the
+  leaderboard page
+
+
+// LEADERBOARD
+- data is loaded into the leaderboard game if the data exists, if not then the user is informed that there
+  is no data
+- if there is data then it is displayed in blocks one after the other, also if there is more information
+  that may fit then the information is put into a scrollable container that the user may scroll through and
+  access it that way.
