@@ -334,6 +334,9 @@ class Game {
     startGame() {
         console.log(`[GAME] game starting`)
 
+        // reset the background back to gray
+        window.document.getElementById("game").style.background = "gray"
+
         // reset the content of the div
         this.screen.innerHTML = ""
 
@@ -395,9 +398,7 @@ class Game {
                 instance.endGame()
             }
 
-            console.log(`${instance.pointsLevel} > ${instance.getMaxScore(instance.level)}`)
-
-            if (instance.getMaxScore(instance.level)) {
+            if (instance.getMaxScore(instance.level) !== -1) {
                 if (instance.pointsLevel > instance.getMaxScore(instance.level)) {
                     console.log("WINNING")
                     window.document.getElementById("game").style.background = "gold"
@@ -826,46 +827,29 @@ class Game {
 
         console.log("saving things")
 
-        let newArray = []
-        // if existing data exists then populate it
-        if (this.getScores()) {
-            newArray = this.getScores()
-            console.log("before")
-            console.log(newArray)
-        }
-
-        // get the profile
+        // get user profile information
         const profile = getProfile()
 
-        // add existing data to it
+        // add existing data to current data
         this.levelScore.set("username", getUsername().username)
         this.levelScore.set("total", this.pointsTotal)
         this.levelScore.set("skin", profile.skin)
         this.levelScore.set("eyes", profile.eyes)
         this.levelScore.set("mouth", profile.mouth)
 
-        newArray.push(this.levelScore)
 
-        let content = ""
 
-        console.log("after")
-        console.log(newArray)
+        console.log(JSON.stringify(Object.fromEntries(this.levelScore)))
 
-        for (let element = 0 ; element < newArray.length ; element++) {
-            console.log(newArray[element])
-            for (let [key, value] of newArray[element].entries()) {
-                content += `${key}>${value},`
-            }
-            content = content.slice(0, -1)
-            content += "|"
-        }
-        content = content.slice(0, -1)
-
-        console.log("saving:")
-        console.log(content)
-
-        // save the total score
-        document.cookie = `scores=${content}`
+        fetch("http://0.0.0.0:8000", {
+            method : "POST",
+            body: JSON.stringify(Object.fromEntries(this.levelScore))
+        }).then(
+            response => response.text() // .json(), etc.
+            // same as function(response) {return response.text();}
+        ).then(
+            html => console.log(html)
+        );
     }
 
     /**
@@ -878,31 +862,30 @@ class Game {
      * @return the integer max score
      */
     getMaxScore(level) {
-        let max = -1
+        let highest = -1
 
-        const scores = this.getScores()
+        // decompose the data
+        let data = this.getScores().toString()
+        data = data.split("\n")
+        data.pop()
 
-        // prevent code executing if no scores are found
-        if (scores) {
+        // go over each score attempt and then find the highest score
+        for (let i = 0 ; i < data.length ; i++) {
+            let lower = data[i].indexOf("[")
+            let higher = data[i].indexOf("]")
+            let inner = data[i].slice(lower + 1, higher)
+            let split = inner.split(",")
 
-            // decode each score finding the score from each save for given level
-            for (let i = 0 ; i < scores.length ; i++) {
-                const map = scores[i]
-                if (Array.from(map.keys()).includes(level.toString())) {
-                    console.log(`one score ${map.get(level.toString())}`)
-                    if (parseInt(map.get(level.toString())) > max) {
-                        max = map.get(level.toString())
-                    }
+            // if the items index exists
+            if (split.length >= level) {
+                if (parseInt(split[level-1]) > highest) {
+                    highest = parseInt(split[level-1])
                 }
             }
         }
 
-        // return the max score for given level
-        if (max >= 0) {
-            return max
-        } else {
-            return null
-        }
+        // return 0 if no highest score, else return the highest score
+        return (highest === -1) ? (0) : (highest)
     }
 
     /**
@@ -911,30 +894,13 @@ class Game {
      * their max score and the max level that they have reached
      *
      * @return an array of maps
+     *
+     * @return array
      */
     getScores() {
-        let name = "scores=";
-        let fragments = document.cookie.split(';');
-        for(let i = 0; i < fragments.length; i++) {
-            let fragment = fragments[i];
-            while (fragment.charAt(0) === ' ') {
-                fragment = fragment.substring(1);
-            }
-            if (fragment.indexOf(name) === 0) {
-                const thing = fragment.substring(name.length, c.length);
-                let array = []
-                for (let element = 0 ; element < thing.split("|").length ; element++) {
-                    let tmpMap = new Map()
-                    let keyValues = thing.split("|")[element].split(",")
-                    for (let keyValue = 0 ; keyValue < keyValues.length ; keyValue++ ) {
-                        tmpMap.set(keyValues[keyValue].split(">")[0], keyValues[keyValue].split(">")[1])
-                    }
-                    array.push(tmpMap)
-                }
-                return array
-            }
-        }
-        return null;
+        let oReq = new XMLHttpRequest();
+        oReq.open("GET", "http://0.0.0.0:8000", false)
+        oReq.send()
+        return oReq.responseText.toString()
     }
 }
-

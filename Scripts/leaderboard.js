@@ -36,7 +36,7 @@ class Leaderboard {
      *
      * @return {Promise<void>} returns a promise that resolves once the leaderboard is updated
      */
-    async addItem(skin, eyes, mouth, username, score, maxLevel) {
+    async addItem(skin, eyes, mouth, username, score, maxLevel, scoresPerLevel) {
 
         console.log(`the max level is: ${maxLevel}`)
         const main = this.screen
@@ -54,6 +54,7 @@ class Leaderboard {
             result = result.replace("some_username", username)
             result = result.replace("some_score", score)
             result = result.replace("some_level", maxLevel)
+            result = result.replace("some_per_level_scores", scoresPerLevel)
 
             main.innerHTML += result
         }
@@ -68,23 +69,44 @@ class Leaderboard {
      */
     loadScores() {
         // iterate over all of the scores
-        const scores = this.getScores()
+        let data = this.getScores().toString()
+        data = data.split("\n")
+        data.pop()
 
-        if (scores) {
-            // create local instance of scores and order them
-            for (let i = 0 ; i < scores.length ; i++) {
-                console.log(scores[i])
+        for (let i = 0 ; i < data.length ; i++) {
+            let thing = data[i].split(",")
+            let name = thing[0]
+            let skin = thing[1]
+            let eyes = thing[2]
+            let mouth = thing[3]
+            let total = thing[thing.length-1]
 
-                const maxLevel = Array.from(scores[i].keys())[scores[i].size - 6]
-
-                this.addItem(scores[i].get("skin"), scores[i].get("eyes"), scores[i].get("mouth"), scores[i].get("username"), scores[i].get("total"), maxLevel)
+            let scores = []
+            for (let j = 0 ; j < thing.length-5 ; j++) {
+                let score = parseInt(thing[4+j].replace("[", "").replace("]", ""))
+                console.log("for the index ", j, "the score is")
+                console.log(score)
+                scores.push(score)
             }
-        } else {
-
-            // add no scores message
-            this.screen.innerHTML = "<h1> no data </h1>"
+            this.addItem(skin, eyes, mouth, name, total, scores.length, scores)
         }
+        data = data[0].split(",")
 
+
+        // if (scores) {
+        //     // create local instance of scores and order them
+        //     for (let i = 0 ; i < scores.length ; i++) {
+        //         console.log(scores[i])
+        //
+        //         const maxLevel = Array.from(scores[i].keys())[scores[i].size - 6]
+        //
+        //         this.addItem(scores[i].get("skin"), scores[i].get("eyes"), scores[i].get("mouth"), scores[i].get("username"), scores[i].get("total"), maxLevel)
+        //     }
+        // } else {
+        //
+        //     // add no scores message
+        //     this.screen.innerHTML = "<h1> no data </h1>"
+        // }
     }
 
     /**
@@ -95,29 +117,9 @@ class Leaderboard {
      * @return {[]|null} the data or null if none exists
      */
     getScores() {
-        // key:value,key:value/map/map
-
-        let name = "scores=";
-        let segments = document.cookie.split(';');
-        for(let i = 0; i < segments.length; i++) {
-            let segment = segments[i];
-            while (segment.charAt(0) === ' ') {
-                segment = segment.substring(1);
-            }
-            if (segment.indexOf(name) === 0) {
-                const thing = segment.substring(name.length, segment.length);
-                let array = []
-                for (let element = 0 ; element < thing.split("|").length ; element++) {
-                    let tmpMap = new Map()
-                    let keyValues = thing.split("|")[element].split(",")
-                    for (let keyValue = 0 ; keyValue < keyValues.length ; keyValue++ ) {
-                        tmpMap.set(keyValues[keyValue].split(">")[0], keyValues[keyValue].split(">")[1])
-                    }
-                    array.push(tmpMap)
-                }
-                return array
-            }
-        }
-        return null;
+        let oReq = new XMLHttpRequest();
+        oReq.open("GET", "http://20.58.113.5:51199/", false)
+        oReq.send()
+        return oReq.responseText.toString()
     }
 }

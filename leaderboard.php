@@ -37,6 +37,10 @@
                     <div class="levelReachedCont">
                         <h1 class="levelReached" id="levelReached"> level </h1>
                     </div>
+
+                    <div class="scorePerLevelCont">
+                        <h1 class="levelReached" id="levelReached"> score per level </h1>
+                    </div>
                 </div>
             </div>
 
