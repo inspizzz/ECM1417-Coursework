@@ -841,7 +841,7 @@ class Game {
 
         console.log(JSON.stringify(Object.fromEntries(this.levelScore)))
 
-        fetch("http://0.0.0.0:8000", {
+        fetch("http://20.16.150.69:8000", {
             method : "POST",
             body: JSON.stringify(Object.fromEntries(this.levelScore))
         }).then(
@@ -899,7 +899,7 @@ class Game {
      */
     getScores() {
         let oReq = new XMLHttpRequest();
-        oReq.open("GET", "http://0.0.0.0:8000", false)
+        oReq.open("GET", "http://20.16.150.69:8000", false)
         oReq.send()
         return oReq.responseText.toString()
     }

@@ -34,5 +34,8 @@ http://ml-lab-4d78f073-aa49-4f0e-bce2-31e5254052c7.ukwest.cloudapp.azure.com:511
 
 // LEADERBOARD  
 - if no data user is informed
-- dispayed in block one after another
+- displayed in block one after another
 - overflow is made scrollable
+- external api service that collects data and returns an ordered list
+- score per level is shown
+- errors when connecting to the api service also handles and displayed
