@@ -26,11 +26,11 @@ API MUST BE TURNED ON TO FUNCTION, CONTACT ww414@exeter.ac.uk
 - game may be loaded back after reload
 - load game modal shows if saved game detected
 - start game modal shows start button if no saved game
-- first 4 levels contain cards that needs to be flipped to find 2 matching, then from level 5 to level 9 cards alternate from 2 matchings to 3 matchings, then after level 10, 4 matching.
+- number of cards to match alternates between certain levels
 - countdown from 60 that ends the game
 - gold background shows if user is going for a high score at current level
 - points deducted animated in red after each level based on incorrect flips
-- information displayed above game, time left, amount of cards to match, total score, score reached in the level  
+- information displayed above game
 - after the game user decides to save or start again
 - unflippable cards flash red
 - matched cards glow green
