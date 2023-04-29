@@ -1,6 +1,8 @@
 link to machine     ->  http://ml-lab-4d78f073-aa49-4f0e-bce2-31e5254052c7.ukwest.cloudapp.azure.com:51199/index.php
 link to api         ->  20.16.150.69:8000
 
+API MUST BE TURNED ON TO FUNCTION, CONTACT ww414@exeter.ac.uk
+
 
 // navigation bar  
 - navigation bar updates
@@ -36,9 +38,8 @@ link to api         ->  20.16.150.69:8000
 
 // LEADERBOARD  
 - if no data user is informed
+- if cannot connect user is informed
 - displayed in block one after another
 - overflow is made scrollable
 - external api service that collects data and returns an ordered list
-- api service must be turned on to function, contact ww414@exeter.ac.uk
 - score per level is shown
-- errors when connecting to the api service also handles and displayed
